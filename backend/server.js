@@ -2,6 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
+const screeningRoutes = require('./routes/screeningRoutes');
+const movieRoutes = require('./routes/movieRoutes');
+
 
 // To be enable to have config file
 require('dotenv').config();
@@ -27,3 +30,5 @@ app.listen(port, () => {
 
 // routes
 app.use('/users', userRoutes);
+app.use('/screenings', screeningRoutes);
+app.use('/movies', movieRoutes);

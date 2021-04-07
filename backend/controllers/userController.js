@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const bcrypt = require('bcrypt');
 
 const handleErrors = (err) => {
     // console.log(err.message, err.code);
@@ -66,9 +67,14 @@ const user_post = (req, res) => {
         });
 }
 
-const user_put = (req, res) => {
+const user_put = async (req, res) => {
     const id = req.params.id;
     const newContent = req.body;
+
+    if (newContent.password) {
+        const salt = await bcrypt.genSalt();
+        newContent.password = await bcrypt.hash(newContent.password, salt);
+    }
 
     User.updateOne({ _id: id }, newContent)
         .then(result => {
