@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
 const screeningRoutes = require('./routes/screeningRoutes');
 const movieRoutes = require('./routes/movieRoutes');
-
+const reservationRoutes = require('./routes/reservationRoutes');
 
 // To be enable to have config file
 require('dotenv').config();
@@ -32,3 +32,4 @@ app.listen(port, () => {
 app.use('/users', userRoutes);
 app.use('/screenings', screeningRoutes);
 app.use('/movies', movieRoutes);
+app.use('/reservations', reservationRoutes);

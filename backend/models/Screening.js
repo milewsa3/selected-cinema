@@ -9,6 +9,10 @@ const screeningSchema = new Schema({
     available_seats: [{
         type: Number
     }],
+    movie_id: {
+        type: String,
+        required: true
+    }
 }, { timestamps: true });
 
 const Screening = mongoose.model('Screening', screeningSchema);
