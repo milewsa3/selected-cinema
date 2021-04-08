@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId;
 
 const movieSchema = new Schema({
     title: {
@@ -7,7 +8,7 @@ const movieSchema = new Schema({
         required: true,
     },
     screenings_ids: [{
-        type: String
+        type: ObjectId
     }],
 }, { timestamps: true });
 
