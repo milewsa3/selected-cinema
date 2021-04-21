@@ -1,14 +1,14 @@
-import { Button, Container, TextField, Typography } from "@material-ui/core";
-import { useState } from "react";
-import { useHistory } from "react-router";
-import { makeStyles } from '@material-ui/core'
-import { KeyboardArrowRight } from "@material-ui/icons";
+import {Button, Container, TextField, Typography} from "@material-ui/core";
+import {useState} from "react";
+import {useHistory} from "react-router";
+import {makeStyles} from '@material-ui/core'
+import {KeyboardArrowRight} from "@material-ui/icons";
 
 const useStyles = makeStyles({
     field: {
-      marginTop: 20,
-      marginBottom: 20,
-      display: 'block'
+        marginTop: 20,
+        marginBottom: 20,
+        display: 'block'
     },
     container: {
         backgroundColor: 'white',
@@ -30,7 +30,7 @@ const Signup = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("Subimt")
+        console.log("Submit")
     }
 
     return (
@@ -46,29 +46,29 @@ const Signup = (props) => {
 
             <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                 <TextField className={classes.field}
-                    onChange={(e) => setUsername(e.target.value)}
-                    label="Username"
-                    variant="outlined"
-                    color="secondary"
-                    fullWidth
-                    required
-                    error={usernameError}
+                           onChange={(e) => setUsername(e.target.value)}
+                           label="Username"
+                           variant="outlined"
+                           color="secondary"
+                           fullWidth
+                           required
+                           error={usernameError}
                 />
                 <TextField className={classes.field}
-                    onChange={(e) => setUsername(e.target.value)}
-                    label="Username"
-                    variant="outlined"
-                    color="secondary"
-                    fullWidth
-                    required
-                    error={usernameError}
+                           onChange={(e) => setUsername(e.target.value)}
+                           label="Username"
+                           variant="outlined"
+                           color="secondary"
+                           fullWidth
+                           required
+                           error={usernameError}
                 />
 
                 <Button
-                    type="submit" 
-                    color="secondary" 
+                    type="submit"
+                    color="secondary"
                     variant="contained"
-                    endIcon={<KeyboardArrowRight />}>
+                    endIcon={<KeyboardArrowRight/>}>
                     Submit
                 </Button>
 
@@ -76,5 +76,5 @@ const Signup = (props) => {
         </Container>
     );
 }
- 
+
 export default Signup;
