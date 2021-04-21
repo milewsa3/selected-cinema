@@ -4,10 +4,12 @@ import React, {useState} from "react";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import * as ReactDOM from "react-dom";
 import clsx from "clsx";
+import BottomFooter from "../components/BottomFooter";
 
 const useStyles = makeStyles(theme => ({
     container: {
-        backgroundColor: 'black'
+        backgroundColor: 'black',
+        boxShadow: '10px 10px 10px 1px rgba(0,0,0,0.75)'
     },
     logo: {
         display: 'flex',
@@ -41,6 +43,9 @@ const useStyles = makeStyles(theme => ({
     },
     right: {
         marginLeft: theme.spacing(6)
+    },
+    marginBottom: {
+        marginBottom: theme.spacing(8)
     }
 }))
 
@@ -68,11 +73,12 @@ export default function Home() {
                     Change your mind
                 </Typography>
             </Container>
-            <Container className={clsx(classes.discover)} maxWidth="sm">
+            <Container className={clsx(classes.discover, classes.marginBottom)} maxWidth="sm">
                 <Typography variant='h2' component='h4'>
                     Relief stress
                 </Typography>
             </Container>
+            <BottomFooter />
         </div>
     );
 }

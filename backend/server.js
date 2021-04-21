@@ -5,6 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const screeningRoutes = require('./routes/screeningRoutes');
 const movieRoutes = require('./routes/movieRoutes');
 const reservationRoutes = require('./routes/reservationRoutes');
+const cors = require('cors')
 
 // To be enable to have config file
 require('dotenv').config();
@@ -15,6 +16,7 @@ const port = process.env.PORT || 5000;
 // Middlewares
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(cors());
 
 // Configure mongoDB
 const dbURI = process.env.ATLAS_URI;
