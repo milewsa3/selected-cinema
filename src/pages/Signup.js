@@ -16,7 +16,7 @@ const useStyles = makeStyles({
         padding: '3rem',
         WebkitBoxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)',
         MozBoxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)',
-        boxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)'
+        boxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)',
     }
 })
 
