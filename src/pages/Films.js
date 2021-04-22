@@ -7,7 +7,7 @@ const Films = () => {
     const [films, setFilms] = useState([])
 
     useEffect(async () => {
-        const res = await fetch('http://localhost:5000/movies', {
+        const res = await fetch('https://selected-cinema-backend.azurewebsites.net/movies', {
             headers: {
                 'Content-Type': 'application/json'
             }
