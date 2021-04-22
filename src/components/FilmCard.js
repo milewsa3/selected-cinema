@@ -54,6 +54,11 @@ export default function FilmCard({ film, handlePreview }) {
         return result
     }
 
+    const openInNewTab = (url) => {
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+    }
+
     useEffect(async () => {
         const title = removeSpecialChars(film.title)
         console.log(title)
@@ -67,7 +72,9 @@ export default function FilmCard({ film, handlePreview }) {
     return(
         <div>
             <Card className={classes.root}>
-                <CardActionArea>
+                <CardActionArea onClick={() => openInNewTab(
+                    'https://www.themoviedb.org/movie/' + filmData['id'] + '-' + removeSpecialChars(filmData['title']).replace(' ', '-')
+                )}>
                     <CardMedia
                         component="img"
                         alt="Poster"
