@@ -24,17 +24,6 @@ const Films = () => {
             fetch('https://selected-cinema-backend.azurewebsites.net/movies')
                 .then(res => res.json())
                 .then(data => setFilms(data))
-
-            // const language = 'en-en'
-            //
-            // const filteredFilms = films.filter((film) => {
-            //     const title = film.title
-            //     fetch(`https://api.themoviedb.org/3/search/movie?api_key=a11ffe1b32709f5551e64f4683d948a3&query=${title}&language=${language}`)
-            //         .then(res => res.json())
-            //         .then(data => !!data.results[0])
-            // })
-            //
-            // setFilms(filteredFilms)
     }, [])
 
     const handlePreview = (id) => {

@@ -26,7 +26,9 @@ const Signup = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [usernameError, setUsernameError] = useState(false)
+    const [usernameErrorDesc, setUsernameErrorDesc] = useState('')
     const [passwordError, setPasswordError] = useState(false)
+    const [passwordErrorDesc, setPasswordErrorDesc] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -53,15 +55,17 @@ const Signup = (props) => {
                            fullWidth
                            required
                            error={usernameError}
+                           helperText={usernameErrorDesc}
                 />
                 <TextField className={classes.field}
-                           onChange={(e) => setUsername(e.target.value)}
-                           label="Username"
+                           onChange={(e) => setPassword(e.target.value)}
+                           label="Password"
                            variant="outlined"
                            color="secondary"
                            fullWidth
                            required
-                           error={usernameError}
+                           error={passwordError}
+                           helperText={passwordErrorDesc}
                 />
 
                 <Button

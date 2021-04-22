@@ -43,14 +43,23 @@ export default function FilmCard({ film, handlePreview }) {
         setExpanded(!expanded)
     }
 
+    function removeSpecialChars(string) {
+        let result = string
+
+        const specialCharacters = ['%']
+        specialCharacters.map(character => {
+            result = result.replace(character, '')
+        })
+
+        return result
+    }
+
     useEffect(async () => {
-        const title = film.title
+        const title = removeSpecialChars(film.title)
+        console.log(title)
         const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=a11ffe1b32709f5551e64f4683d948a3&query=${title}&language=${language}`)
         const film_data = await res.json()
         const element = film_data.results[0]
-
-        if(!element)
-            return
 
         setFilmData(element)
     }, [])
