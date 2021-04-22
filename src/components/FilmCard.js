@@ -1,17 +1,47 @@
 import {makeStyles} from "@material-ui/core/styles";
-import {Typography} from "@material-ui/core";
+import {
+    Button,
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
+    CardMedia, Collapse,
+    IconButton,
+    Typography
+} from "@material-ui/core";
 import {useEffect, useState} from "react";
+import {red} from "@material-ui/core/colors";
+import clsx from "clsx";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {InfoOutlined} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
-    filmCard: {
+    root: {
+        maxWidth: 200,
+        boxShadow: '15px 15px 16px 0px rgba(0,0,0,0.75)'
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
     }
+
 }))
 
 export default function FilmCard({ film, handlePreview }) {
     const classes = useStyles(film)
     const [filmData, setFilmData] = useState({})
+    const [expanded, setExpanded] = useState(false)
     const language = 'en-en'
-    console.log('null?', film == null)
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded)
+    }
 
     useEffect(async () => {
         const title = film.title
@@ -19,13 +49,47 @@ export default function FilmCard({ film, handlePreview }) {
         const film_data = await res.json()
         const element = film_data.results[0]
 
-        if (element)
-            setFilmData(element)
+        if(!element)
+            return
+
+        setFilmData(element)
     }, [])
 
     return(
         <div>
-            {filmData['title']}
+            <Card className={classes.root}>
+                <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        alt="Poster"
+                        height="auto"
+                        image={`https://image.tmdb.org/t/p/w${400}/${filmData['poster_path']}`}
+                        title={filmData['title']}
+                    />
+                    <CardContent>
+                        <Typography variant="h5" component="h2">
+                            {filmData['title']}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions disableSpacing>
+                    <IconButton
+                        className={clsx(classes.expand, {
+                            [classes.expandOpen]: expanded,
+                        })}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+                    >
+                        <ExpandMoreIcon />
+                    </IconButton>
+                </CardActions>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                        <Typography paragraph>{filmData['overview']}</Typography>
+                    </CardContent>
+                </Collapse>
+            </Card>
         </div>
     )
 }
