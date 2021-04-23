@@ -26,16 +26,12 @@ const Films = () => {
                 .then(data => setFilms(data))
     }, [])
 
-    const handlePreview = (id) => {
-        console.log('redirecting to preview')
-    }
-
     return (
         <Container className={classes.container} maxWidth="lg">
             <Grid container spacing={4} alignContent="center" justify="center">
                 {films.map(film => (
                     <Grid item sx={12} md={4} lg={3} xl={3} key={film._id} className={classes.grid}>
-                        <FilmCard film={film} handlePreview={handlePreview} />
+                        <FilmCard film={film} />
                     </Grid>
                 ))}
             </Grid>

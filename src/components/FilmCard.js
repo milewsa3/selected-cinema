@@ -14,6 +14,9 @@ import {red} from "@material-ui/core/colors";
 import clsx from "clsx";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {InfoOutlined} from "@material-ui/icons";
+import useFetch from "../utils/useFetch";
+import Skeleton from '@material-ui/lab/Skeleton';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,19 +32,18 @@ const useStyles = makeStyles(theme => ({
     },
     expandOpen: {
         transform: 'rotate(180deg)',
+    },
+    skeleton: {
+        backgroundColor: '#404040',
+        opacity: '0.7'
     }
 
 }))
 
-export default function FilmCard({ film, handlePreview }) {
+export default function FilmCard({ film }) {
     const classes = useStyles(film)
-    const [filmData, setFilmData] = useState({})
     const [expanded, setExpanded] = useState(false)
-    const language = 'en-en'
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded)
-    }
+    let filmData = null
 
     function removeSpecialChars(string) {
         let result = string
@@ -54,58 +56,66 @@ export default function FilmCard({ film, handlePreview }) {
         return result
     }
 
+    const setFilmData = (data) => {
+        filmData = data
+    }
+
+    const { data, error, isPending } =
+        useFetch(`https://api.themoviedb.org/3/search/movie?api_key=a11ffe1b32709f5551e64f4683d948a3&query=${removeSpecialChars(film.title)}&language=${'en-en'}`)
+
+    if (data)
+        setFilmData(data.results[0])
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded)
+    }
+
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
     }
 
-    useEffect(async () => {
-        const title = removeSpecialChars(film.title)
-        console.log(title)
-        const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=a11ffe1b32709f5551e64f4683d948a3&query=${title}&language=${language}`)
-        const film_data = await res.json()
-        const element = film_data.results[0]
-
-        setFilmData(element)
-    }, [])
-
     return(
         <div>
-            <Card className={classes.root}>
-                <CardActionArea onClick={() => openInNewTab(
-                    'https://www.themoviedb.org/movie/' + filmData['id'] + '-' + removeSpecialChars(filmData['title']).replace(' ', '-')
-                )}>
-                    <CardMedia
-                        component="img"
-                        alt="Poster"
-                        height="auto"
-                        image={`https://image.tmdb.org/t/p/w${400}/${filmData['poster_path']}`}
-                        title={filmData['title']}
-                    />
-                    <CardContent>
-                        <Typography variant="h5" component="h2">
-                            {filmData['title']}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions disableSpacing>
-                    <IconButton
-                        className={clsx(classes.expand, {
-                            [classes.expandOpen]: expanded,
-                        })}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                    >
-                        <ExpandMoreIcon />
-                    </IconButton>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        <Typography paragraph>{filmData['overview']}</Typography>
-                    </CardContent>
-                </Collapse>
-            </Card>
+            { isPending && <Skeleton variant="rect" width={168} height={420} animation="wave" className={classes.skeleton}/> }
+            { error && <div>{ error }</div> }
+            { data && (
+                <Card className={classes.root}>
+                    <CardActionArea onClick={() => openInNewTab(
+                        'https://www.themoviedb.org/movie/' + filmData['id'] + '-' + removeSpecialChars(filmData['title']).replace(' ', '-')
+                    )}>
+                        <CardMedia
+                            component="img"
+                            alt="Poster"
+                            height="auto"
+                            image={`https://image.tmdb.org/t/p/w${400}/${filmData['poster_path']}`}
+                            title={filmData['title']}
+                        />
+                        <CardContent>
+                            <Typography variant="h5" component="h2">
+                                {filmData['title']}
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                    <CardActions disableSpacing>
+                        <IconButton
+                            className={clsx(classes.expand, {
+                                [classes.expandOpen]: expanded,
+                            })}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
+                        >
+                            <ExpandMoreIcon />
+                        </IconButton>
+                    </CardActions>
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <CardContent>
+                            <Typography paragraph>{filmData['overview']}</Typography>
+                        </CardContent>
+                    </Collapse>
+                </Card>
+            )}
         </div>
     )
 }
