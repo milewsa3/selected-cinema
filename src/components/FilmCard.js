@@ -60,11 +60,16 @@ export default function FilmCard({ film }) {
         filmData = data
     }
 
-    const { data, error, isPending } =
+    let { data, error, isPending } =
         useFetch(`https://api.themoviedb.org/3/search/movie?api_key=a11ffe1b32709f5551e64f4683d948a3&query=${removeSpecialChars(film.title)}&language=${'en-en'}`)
 
-    if (data)
-        setFilmData(data.results[0])
+    if (data) {
+        if (data.results[0]) {
+            setFilmData(data.results[0])
+        } else {
+            error = {message: 'There is no such film like: ' + film.title}
+        }
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded)
