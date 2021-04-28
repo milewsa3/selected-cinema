@@ -36,16 +36,28 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         WebkitBoxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)',
         MozBoxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)',
-        boxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)'
+        boxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)',
+        [theme.breakpoints.down('md')]: {
+            height: '25vh'
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '75vw'
+        }
     },
     left: {
         marginRight: theme.spacing(6)
     },
     right: {
-        marginLeft: theme.spacing(6)
+        marginLeft: theme.spacing(6),
+        [theme.breakpoints.down('md')]: {
+            marginLeft: 0
+        }
     },
     marginBottom: {
-        marginBottom: theme.spacing(8)
+        marginBottom: theme.spacing(8),
+        [theme.breakpoints.down('md')]: {
+            marginRight: 0
+        }
     }
 }))
 

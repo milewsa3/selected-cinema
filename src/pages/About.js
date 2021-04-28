@@ -18,7 +18,7 @@ export default function About() {
 
     return(
         <Container>
-            <Typography variant="h2" color="secondary" className={classes.aboutMe}>
+            <Typography variant="h2" color="primary" className={classes.aboutMe}>
                 About me
             </Typography>
             <Container className={classes.content}>

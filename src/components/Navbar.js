@@ -21,6 +21,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import MovieFilterIcon from '@material-ui/icons/MovieFilter';
 import InfoIcon from '@material-ui/icons/Info';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 
 const useStyles = makeStyles( (theme) => ({
     topNav: {
@@ -91,7 +92,12 @@ export default function Navbar() {
             icon: <InfoIcon />
         },
         {
-            title: 'Sign up',
+            title: 'Sign In',
+            path: '/login',
+            icon: <AddToHomeScreenIcon/>
+        },
+        {
+            title: 'Sign Up',
             path: '/signup',
             icon: <VpnKeyIcon />
         },
@@ -121,7 +127,7 @@ export default function Navbar() {
     )
 
     return(
-        <AppBar color={"secondary"} position={'sticky'}>
+        <AppBar color={"primary"} position={'sticky'}>
             <Toolbar className={classes.topNav}>
                 <Typography variant="h2" component="h4">
                     <NavLink exact to="/" className={classes.clearLink}>Selected</NavLink>

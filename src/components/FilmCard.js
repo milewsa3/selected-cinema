@@ -93,7 +93,7 @@ export default function FilmCard({ film }) {
                             component="img"
                             alt="Poster"
                             height="auto"
-                            image={`https://image.tmdb.org/t/p/w${400}/${filmData['poster_path']}`}
+                            image={`https://image.tmdb.org/t/p/w${300}/${filmData['poster_path']}`}
                             title={filmData['title']}
                         />
                         <CardContent>

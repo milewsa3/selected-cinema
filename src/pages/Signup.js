@@ -1,8 +1,8 @@
-import {Button, Container, TextField, Typography} from "@material-ui/core";
+import {Button, Container, IconButton, Input, InputAdornment, TextField, Typography} from "@material-ui/core";
 import {useState} from "react";
 import {useHistory} from "react-router";
 import {makeStyles} from '@material-ui/core'
-import {KeyboardArrowRight} from "@material-ui/icons";
+import {KeyboardArrowRight, Visibility, VisibilityOff} from "@material-ui/icons";
 
 const useStyles = makeStyles({
     field: {
@@ -23,57 +23,117 @@ const useStyles = makeStyles({
 const Signup = (props) => {
     const classes = useStyles()
     const history = useHistory()
-    const [username, setUsername] = useState('')
+
+    const [fullName, setFullName] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [usernameError, setUsernameError] = useState(false)
-    const [usernameErrorDesc, setUsernameErrorDesc] = useState('')
+
+    const [fullNameError, setFullNameError] = useState(false)
+    const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
+
+    const [fullNameErrorDesc, setFullNameErrorDesc] = useState('')
+    const [emailErrorDesc, setEmailErrorDesc] = useState('')
     const [passwordErrorDesc, setPasswordErrorDesc] = useState('')
+
+    const [showPassword, setShowPassword] = useState(false)
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("Submit")
+        setFullNameError(false)
+        setEmailError(false)
+        setPasswordError(false)
+
+        setFullNameErrorDesc('')
+        setEmailErrorDesc('')
+        setPasswordErrorDesc('')
+
+        if (fullName === '') {
+            setFullNameError(true)
+            setFullNameErrorDesc('This field cannot be empty')
+        }
+        if (email === '') {
+            setEmailError(true)
+            setEmailErrorDesc('This field cannot be empty')
+        }
+        if (password === '') {
+            setPasswordError(true)
+            setPasswordErrorDesc('This field cannot be empty')
+        }
+        console.log({ fullName, email, password })
+        return
+
+        if (fullName && email && password) {
+            fetch('https://selected-cinema-backend.azurewebsites.net/users', {
+                method: 'POST',
+                headers: {"Content-type": "application/json"},
+                body: JSON.stringify({ fullName, email, password })
+            }).then(res => {
+
+            }).catch(err => {
+
+            })
+        }
+    }
+
+    function handleClickShowPassword() {
+        setShowPassword(true)
+    }
+
+    function handleMouseDownPassword() {
+        setShowPassword(false)
     }
 
     return (
         <Container size="sm" className={classes.container}>
             <Typography
-                variant="h4"
-                color="secondary"
+                variant="h5"
+                color="primary"
                 component="h2"
                 gutterBottom
             >
-                Register
+                Sign Up
             </Typography>
 
             <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                 <TextField className={classes.field}
-                           onChange={(e) => setUsername(e.target.value)}
-                           label="Username"
+                           onChange={(e) => setFullName(e.target.value)}
+                           label="Full Name"
                            variant="outlined"
-                           color="secondary"
+                           color="primary"
                            fullWidth
                            required
-                           error={usernameError}
-                           helperText={usernameErrorDesc}
+                           error={fullNameError}
+                           helperText={fullNameErrorDesc}
+                />
+                <TextField className={classes.field}
+                           onChange={(e) => setEmail(e.target.value)}
+                           label="Email Address"
+                           variant="outlined"
+                           color="primary"
+                           fullWidth
+                           required
+                           error={emailError}
+                           helperText={emailErrorDesc}
                 />
                 <TextField className={classes.field}
                            onChange={(e) => setPassword(e.target.value)}
                            label="Password"
                            variant="outlined"
-                           color="secondary"
+                           color="primary"
                            fullWidth
                            required
                            error={passwordError}
                            helperText={passwordErrorDesc}
+                           type="password"
                 />
 
                 <Button
                     type="submit"
-                    color="secondary"
+                    color="primary"
                     variant="contained"
                     endIcon={<KeyboardArrowRight/>}>
-                    Submit
+                    Sign Up
                 </Button>
 
             </form>
