@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 
 const handleErrors = (err) => {
     // console.log(err.message, err.code);
+    return err
     let errors = { email: '', password: '' };
   
     // incorrect email

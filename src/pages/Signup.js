@@ -64,7 +64,7 @@ const Signup = (props) => {
         return
 
         if (fullName && email && password) {
-            fetch('https://selected-cinema-backend.azurewebsites.net/users', {
+            fetch(`${process.env.REACT_APP_BACKEND_URI}/users`, {
                 method: 'POST',
                 headers: {"Content-type": "application/json"},
                 body: JSON.stringify({ fullName, email, password })

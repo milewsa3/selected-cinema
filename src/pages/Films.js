@@ -21,7 +21,7 @@ const Films = () => {
     const classes = useStyles()
 
     useEffect( () => {
-            fetch('https://selected-cinema-backend.azurewebsites.net/movies')
+            fetch(`${process.env.REACT_APP_BACKEND_URI}/movies`)
                 .then(res => res.json())
                 .then(data => setFilms(data))
     }, [])
