@@ -48,32 +48,37 @@ const Signup = (props) => {
         setEmailErrorDesc('')
         setPasswordErrorDesc('')
 
-        if (fullName === '') {
-            setFullNameError(true)
-            setFullNameErrorDesc('This field cannot be empty')
-        }
-        if (email === '') {
-            setEmailError(true)
-            setEmailErrorDesc('This field cannot be empty')
-        }
-        if (password === '') {
-            setPasswordError(true)
-            setPasswordErrorDesc('This field cannot be empty')
-        }
-        console.log({ fullName, email, password })
-        return
+        console.log('fetching')
 
-        if (fullName && email && password) {
-            fetch(`${process.env.REACT_APP_BACKEND_URI}/users`, {
-                method: 'POST',
-                headers: {"Content-type": "application/json"},
-                body: JSON.stringify({ fullName, email, password })
-            }).then(res => {
+        fetch(`${process.env.REACT_APP_BACKEND_URI}/users`, {
+            method: 'POST',
+            headers: {"Content-type": "application/json"},
+            body: JSON.stringify({ fullName, email, password })
+        }).then(res => res.json())
+          .then(data => {
+              if (!data._id) {
+                  const err = data
 
-            }).catch(err => {
+                  if (err.fullName !== '') {
+                      setFullNameError(true)
+                      setFullNameErrorDesc(err.fullName)
+                  }
+                  if (err.email !== '') {
+                      setEmailError(true)
+                      setEmailErrorDesc(err.email)
+                  }
+                  if (err.password !== '') {
+                      setPasswordError(true)
+                      setPasswordErrorDesc(err.password)
+                  }
+              } else {
+                  history.push('/')
+              }
+          })
+          .catch(err => {
+              console.log(err)
+          })
 
-            })
-        }
     }
 
     function handleClickShowPassword() {
