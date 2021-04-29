@@ -1,5 +1,5 @@
-import { Button, Container, Typography } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import {Button, Container, Typography, useMediaQuery} from "@material-ui/core";
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import React, {useState} from "react";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import * as ReactDOM from "react-dom";
@@ -58,11 +58,16 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('md')]: {
             marginRight: 0
         }
+    },
+    mobileTypography: {
+        fontSize: '2rem',
     }
 }))
 
 export default function Home() {
-    const classes = useStyles();
+    const classes = useStyles()
+    const theme = useTheme()
+    const mobileSize = useMediaQuery(theme.breakpoints.down('sm'))
 
     return(
         <div>
@@ -75,18 +80,30 @@ export default function Home() {
                     <Typography variant='h1' component='h2' className={classes.centerLabel}>Watch.</Typography>
                 </div>
             </Container>
-            <Container className={clsx(classes.discover, classes.left)} maxWidth="sm">
-                <Typography variant='h4' component='h4'>
+            <Container
+                className={clsx(
+                classes.discover,
+                classes.left
+            )}
+                maxWidth="sm"
+            >
+                <Typography variant='h4' component='h4' className={clsx(mobileSize && classes.mobileTypography)}>
                     Discover new films
                 </Typography>
             </Container>
-            <Container className={clsx(classes.discover, classes.right)} maxWidth="sm">
-                <Typography variant='h3' component='h4'>
+            <Container className={clsx(
+                classes.discover,
+                classes.right
+            )} maxWidth="sm">
+                <Typography variant='h3' component='h4' className={clsx(mobileSize && classes.mobileTypography)}>
                     Change your mind
                 </Typography>
             </Container>
-            <Container className={clsx(classes.discover, classes.marginBottom)} maxWidth="sm">
-                <Typography variant='h2' component='h4'>
+            <Container className={clsx(
+                classes.discover,
+                classes.marginBottom
+            )} maxWidth="sm">
+                <Typography variant='h2' component='h4' className={clsx(mobileSize && classes.mobileTypography)}>
                     Relief stress
                 </Typography>
             </Container>

@@ -1,7 +1,6 @@
 import {Container, Grid} from "@material-ui/core";
 import {useEffect, useState} from "react";
 import FilmCard from '../components/FilmCard'
-import Masonry from 'react-masonry-css'
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
