@@ -2,9 +2,7 @@ const User = require("../models/User");
 const bcrypt = require('bcrypt');
 
 const handleErrors = (err) => {
-    // console.log(err.message, err.code);
-    return err
-    let errors = { email: '', password: '' };
+    let errors = { email: '', password: '', fullName: '' };
   
     // incorrect email
     if (err.message === 'incorrect email') {
@@ -57,7 +55,6 @@ const user_get_id = (req, res) => {
 }
 
 const user_post = (req, res) => {
-    console.log(req.body);
     const user = new User(req.body);
     user.save()
         .then(result => {
