@@ -1,5 +1,6 @@
 import {Button, Container, makeStyles, TextField, Typography} from "@material-ui/core";
 import {useState} from "react";
+import {useHistory} from "react-router";
 import {KeyboardArrowRight} from "@material-ui/icons";
 
 const useStyles = makeStyles({
@@ -20,6 +21,7 @@ const useStyles = makeStyles({
 
 const Login = (props) => {
     const classes = useStyles()
+    const history = useHistory()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -44,9 +46,26 @@ const Login = (props) => {
             headers: {"Content-type": "application/json"},
             credentials: 'include',
             body: JSON.stringify({ email, password })
-        }).then(res => {
-            console.log(res)
-        }).catch(err => {
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.errors) {
+                const err = data.errors
+
+                if (err.email !== '') {
+                    setEmailError(true)
+                    setEmailErrorDesc(err.email)
+                }
+                if (err.password !== '') {
+                    setPasswordError(true)
+                    setPasswordErrorDesc(err.password)
+                }
+            }
+            if (data.user) {
+                history.push('/')
+            }
+        })
+        .catch(err => {
             console.log(err)
         })
     }

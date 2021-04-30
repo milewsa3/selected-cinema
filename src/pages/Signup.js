@@ -70,7 +70,8 @@ const Signup = (props) => {
                       setPasswordError(true)
                       setPasswordErrorDesc(err.password)
                   }
-              } else {
+              }
+              if (data.user) {
                   history.push('/')
               }
           })
