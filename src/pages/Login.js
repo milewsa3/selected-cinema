@@ -20,16 +20,35 @@ const useStyles = makeStyles({
 
 const Login = (props) => {
     const classes = useStyles()
-    const [username, setUsername] = useState('')
+
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [usernameError, setUsernameError] = useState(false)
-    const [usernameErrorDesc, setUsernameErrorDesc] = useState('')
+
+    const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
+
+    const [emailErrorDesc, setEmailErrorDesc] = useState('')
     const [passwordErrorDesc, setPasswordErrorDesc] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("Submit")
+
+        setEmailError(false)
+        setPasswordError(false)
+
+        setEmailErrorDesc('')
+        setPasswordErrorDesc('')
+
+        fetch(`${process.env.REACT_APP_BACKEND_URI}/auth/login`, {
+            method: 'POST',
+            headers: {"Content-type": "application/json"},
+            credentials: 'include',
+            body: JSON.stringify({ email, password })
+        }).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     return (
@@ -45,20 +64,21 @@ const Login = (props) => {
 
             <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                 <TextField className={classes.field}
-                           onChange={(e) => setUsername(e.target.value)}
+                           onChange={(e) => setEmail(e.target.value)}
                            label="Email Address"
                            variant="outlined"
                            color="primary"
                            fullWidth
                            required
-                           error={usernameError}
-                           helperText={usernameErrorDesc}
+                           error={emailError}
+                           helperText={emailErrorDesc}
                 />
                 <TextField className={classes.field}
                            onChange={(e) => setPassword(e.target.value)}
                            label="Password"
                            variant="outlined"
                            color="primary"
+                           type="password"
                            fullWidth
                            required
                            error={passwordError}

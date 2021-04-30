@@ -36,7 +36,6 @@ const Signup = (props) => {
     const [emailErrorDesc, setEmailErrorDesc] = useState('')
     const [passwordErrorDesc, setPasswordErrorDesc] = useState('')
 
-    const [showPassword, setShowPassword] = useState(false)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -48,11 +47,11 @@ const Signup = (props) => {
         setEmailErrorDesc('')
         setPasswordErrorDesc('')
 
-        console.log('fetching')
 
-        fetch(`${process.env.REACT_APP_BACKEND_URI}/users`, {
+        fetch(`${process.env.REACT_APP_BACKEND_URI}/auth/signup`, {
             method: 'POST',
             headers: {"Content-type": "application/json"},
+            credentials: 'include',
             body: JSON.stringify({ fullName, email, password })
         }).then(res => res.json())
           .then(data => {
@@ -79,14 +78,6 @@ const Signup = (props) => {
               console.log(err)
           })
 
-    }
-
-    function handleClickShowPassword() {
-        setShowPassword(true)
-    }
-
-    function handleMouseDownPassword() {
-        setShowPassword(false)
     }
 
     return (
