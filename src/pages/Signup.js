@@ -56,8 +56,8 @@ const Signup = (props) => {
             body: JSON.stringify({ fullName, email, password })
         }).then(res => res.json())
           .then(data => {
-              if (!data._id) {
-                  const err = data
+              if (data.errors) {
+                  const err = data.errors
 
                   if (err.fullName !== '') {
                       setFullNameError(true)

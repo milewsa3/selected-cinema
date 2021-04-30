@@ -58,10 +58,11 @@ const user_post = (req, res) => {
     const user = new User(req.body);
     user.save()
         .then(result => {
-            res.json(result);
+            res.status(201).json(result);
         })
         .catch(err => {
-            res.status(400).json(handleErrors(err));
+            const errors = handleErrors(err)
+            res.status(400).json({ errors });
         });
 }
 
