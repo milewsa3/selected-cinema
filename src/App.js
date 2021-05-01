@@ -9,6 +9,7 @@ import Films from './pages/Films'
 import Login from "./pages/Login";
 import UserAuth from './components/UserAuth'
 import {checkUser} from "./utils/auth/checkUser";
+import Logout from "./pages/Logout";
 
 const theme = createMuiTheme({
   palette: {
@@ -42,6 +43,9 @@ function App() {
             </Route>
             <Route path="/signup">
               <Signup />
+            </Route>
+            <Route path="/logout">
+              <Logout />
             </Route>
           </Switch>
         </UserAuth>

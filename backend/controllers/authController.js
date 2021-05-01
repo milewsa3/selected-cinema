@@ -77,3 +77,20 @@ module.exports.logout_get = (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.json()
 }
+
+module.exports.checkUser_get = (req, res) => {
+    const token = req.cookies.jwt;
+
+    if (token) {
+        jwt.verify(token, 'private secret', async (err, decodedToken) => {
+            if (err) {
+                res.status(200).json({user: undefined})
+            } else {
+                let user = await User.findById(decodedToken.id);
+                res.status(200).json({ user })
+            }
+        });
+    } else {
+        res.status(200).json({user: undefined})
+    }
+}

@@ -10,7 +10,7 @@ import {
     useMediaQuery
 } from "@material-ui/core";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import ListItemText from '@material-ui/core/ListItemText';
@@ -22,6 +22,7 @@ import MovieFilterIcon from '@material-ui/icons/MovieFilter';
 import InfoIcon from '@material-ui/icons/Info';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
+import CallMissedOutgoingIcon from '@material-ui/icons/CallMissedOutgoing';
 
 const useStyles = makeStyles( (theme) => ({
     topNav: {
@@ -75,26 +76,26 @@ export default function Navbar() {
         setMenuOpened(false)
     }
 
-    const tabs = [
+    const notLoggedUsersTabs = [
         {
             title: 'Home',
             path: '/',
-            icon: <HomeIcon />
+            icon: <HomeIcon />,
         },
         {
             title: 'Films',
             path: '/films',
-            icon: <MovieFilterIcon />
+            icon: <MovieFilterIcon />,
         },
         {
             title: 'About',
             path: '/about',
-            icon: <InfoIcon />
+            icon: <InfoIcon />,
         },
         {
             title: 'Sign In',
             path: '/login',
-            icon: <AddToHomeScreenIcon/>
+            icon: <AddToHomeScreenIcon/>,
         },
         {
             title: 'Sign Up',
@@ -103,6 +104,36 @@ export default function Navbar() {
         },
     ]
 
+    const loggedUsersTabs = [
+        {
+            title: 'Home',
+            path: '/',
+            icon: <HomeIcon />,
+        },
+        {
+            title: 'Films',
+            path: '/films',
+            icon: <MovieFilterIcon />,
+        },
+        {
+            title: 'About',
+            path: '/about',
+            icon: <InfoIcon />,
+        },
+        {
+            title: 'Logout',
+            path: '/logout',
+            icon: <CallMissedOutgoingIcon />
+        }
+    ]
+
+    const [tabs, setTabs] = useState(notLoggedUsersTabs)
+
+
+    useEffect(() => {
+        setTabs(JSON.parse(localStorage.getItem('user')) ? loggedUsersTabs : notLoggedUsersTabs)
+    }, [location])
+
     const list = () => (
         <div
             className={classes.list}
@@ -110,7 +141,7 @@ export default function Navbar() {
             onClick={() => handleDrawerClose()}
         >
             <List>
-                {tabs.map((tab, index) => (
+                {tabs.map((tab) => (
                     <ListItem
                         button
                         key={tab.title}
@@ -151,7 +182,7 @@ export default function Navbar() {
                     (
                     <div className={classes.links}>
                         {tabs.map(tab => (
-                            <NavLink exact to={tab.path} activeClassName={classes.active}>{tab.title}</NavLink>
+                            <NavLink exact to={tab.path} activeClassName={classes.active} key={tab.title}>{tab.title}</NavLink>
                         ))}
                     </div>
                 )}
