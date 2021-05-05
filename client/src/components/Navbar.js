@@ -1,5 +1,5 @@
 import {
-    AppBar,
+    AppBar, Avatar,
     Button,
     Divider,
     Drawer,
@@ -24,24 +24,26 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import {useDispatch} from "react-redux";
 import decode from 'jwt-decode'
 import {LOGOUT} from "../constants/actionTypes";
+import {deepPurple} from "@material-ui/core/colors";
 
 const useStyles = makeStyles( (theme) => ({
     topNav: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: "1.5rem 4rem"
+        padding: "1.0rem 4rem"
     },
     links: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '30vw',
         '& *': {
             textDecoration: 'none',
             color: 'white',
             fontSize: '1.2rem',
-            transition: 'all 0.2s'
+            transition: 'all 0.2s',
+            marginLeft: '15px',
+            marginRight: '15px',
         }
     },
     clearLink: {
@@ -60,6 +62,10 @@ const useStyles = makeStyles( (theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    purple: {
+        color: theme.palette.getContrastText(deepPurple[500]),
+        backgroundColor: deepPurple[500],
     }
 }))
 
@@ -141,10 +147,10 @@ export default function Navbar() {
                         button
                         key="logout"
                     >
-                        <NavLink exact to={"/logout"} activeClassName={classes.active} className={classes.mobileItem}>
+                        <div className={classes.mobileItem} onClick={logout}>
                             <ListItemIcon><VpnKeyIcon /></ListItemIcon>
                             <ListItemText primary="Logout" />
-                        </NavLink>
+                        </div>
                     </ListItem>
                 ) : (
 
@@ -191,7 +197,11 @@ export default function Navbar() {
                             <NavLink exact to={tab.path} activeClassName={classes.active}>{tab.title}</NavLink>
                         ))}
                         {user ? (
-                            <Button component={Link} to="/logout" variant="contained" color="secondary" onClick={logout}>Logout</Button>
+                            <>
+                                <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
+                                <Typography variant="h6" className={classes.userName}>{user.result.name}</Typography>
+                                <Button size="small" variant="contained" color="secondary" onClick={logout} className={classes.logoutBtn}>Logout</Button>
+                            </>
                         ) : (
                             <Button size="small" component={Link} to="/auth" variant="contained" color="secondary">Sign up</Button>
                         )}

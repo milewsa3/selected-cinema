@@ -120,7 +120,7 @@ module.exports.signin_post = async (req, res) => {
     if (data.error) {
         res.status(400).json(data)
     } else {
-        const user = data.user
+        let user = data.user
         const token = createToken(user.email, user._id)
         res.status(200).json({ result: user, token })
     }

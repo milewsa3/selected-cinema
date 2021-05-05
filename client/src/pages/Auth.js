@@ -1,138 +1,161 @@
-import {Button, Container, IconButton, Input, InputAdornment, TextField, Typography} from "@material-ui/core";
+import { Avatar, Button, Container, Grid, Paper, Typography } from '@material-ui/core';
 import {useState} from "react";
-import {useHistory} from "react-router";
+import {useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core'
-import {KeyboardArrowRight, Visibility, VisibilityOff} from "@material-ui/icons";
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import {useDispatch} from "react-redux";
+import {AUTH} from "../constants/actionTypes";
+import {signin, signup} from "../actions/authActions";
+import { GoogleLogin } from 'react-google-login'
+import AuthInput from "../components/AuthInput";
+import GoogleIcon from '../utils/googleIcon'
 
-const useStyles = makeStyles({
-    field: {
-        marginTop: 20,
-        marginBottom: 20,
-        display: 'block'
+const useStyles = makeStyles(theme => ({
+    paper: {
+        marginTop: theme.spacing(6),
+        marginBottom: theme.spacing(3),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: theme.spacing(2),
     },
-    container: {
-        backgroundColor: 'white',
-        marginTop: '3rem',
-        padding: '3rem',
-        WebkitBoxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)',
-        MozBoxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)',
-        boxShadow: '-2px 1px 95px -13px rgba(196,196,196,1)',
-    }
-})
+    root: {
+        '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+        },
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+    googleButton: {
+        marginBottom: theme.spacing(2),
+    },
+}))
+
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
 
 const Auth = (props) => {
     const classes = useStyles()
     const history = useHistory()
+    const dispatch = useDispatch()
 
-    const [fullName, setFullName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
+    const [isSignup, setIsSignup] = useState(false)
+    const [formData, setFormData] = useState(initialState)
 
-    const [fullNameError, setFullNameError] = useState(false)
-    const [emailError, setEmailError] = useState(false)
-    const [passwordError, setPasswordError] = useState(false)
 
-    const [fullNameErrorDesc, setFullNameErrorDesc] = useState('')
-    const [emailErrorDesc, setEmailErrorDesc] = useState('')
-    const [passwordErrorDesc, setPasswordErrorDesc] = useState('')
+    const handleChange = (e) => {
+        setFormData({...formData, [e.target.name]: e.target.value})
+    }
 
+    const handleShowPassword = () => {
+        setShowPassword(prevShowPassword => !prevShowPassword)
+    }
+
+    const switchMode = () => {
+        setFormData(initialState)
+        setIsSignup(prevIsSignup => !prevIsSignup)
+        setShowPassword(false)
+    }
+
+    const googleSuccess = async (res) => {
+        const result = res?.profileObj
+        const token = res?.tokenId
+
+        try {
+            dispatch({ type: AUTH, data: { result, token } })
+            history.push('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const googleFailure = () => {
+        alert('Google Sign In was unsuccessful. Try again later');
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setFullNameError(false)
-        setEmailError(false)
-        setPasswordError(false)
 
-        setFullNameErrorDesc('')
-        setEmailErrorDesc('')
-        setPasswordErrorDesc('')
-
-
-        fetch(`${process.env.REACT_APP_BACKEND_URI}/auth/signup`, {
-            method: 'POST',
-            headers: {"Content-type": "application/json"},
-            credentials: 'include',
-            body: JSON.stringify({ fullName, email, password })
-        }).then(res => res.json())
-          .then(data => {
-              if (data.errors) {
-                  const err = data.errors
-
-                  if (err.fullName !== '') {
-                      setFullNameError(true)
-                      setFullNameErrorDesc(err.fullName)
-                  }
-                  if (err.email !== '') {
-                      setEmailError(true)
-                      setEmailErrorDesc(err.email)
-                  }
-                  if (err.password !== '') {
-                      setPasswordError(true)
-                      setPasswordErrorDesc(err.password)
-                  }
-              } else {
-                  history.push('/')
-              }
-          })
-          .catch(err => {
-              console.log(err)
-          })
-
+        if (isSignup) {
+            dispatch(signup(formData, history))
+        } else {
+            dispatch(signin(formData, history))
+        }
     }
 
     return (
-        <Container size="sm" className={classes.container}>
-            <Typography
-                variant="h5"
-                color="primary"
-                component="h2"
-                gutterBottom
-            >
-                Sign Up
-            </Typography>
+        <Container component="main" maxWidth="xs">
+            <Paper className={classes.paper} elevation={5}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography variant="h5">{isSignup ? 'Sign up' : 'Sign In'}</Typography>
+                <form className={classes.form} onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                        {
+                            isSignup && (
+                                <>
 
-            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-                <TextField className={classes.field}
-                           onChange={(e) => setFullName(e.target.value)}
-                           label="Full Name"
-                           variant="outlined"
-                           color="primary"
-                           fullWidth
-                           required
-                           error={fullNameError}
-                           helperText={fullNameErrorDesc}
-                />
-                <TextField className={classes.field}
-                           onChange={(e) => setEmail(e.target.value)}
-                           label="Email Address"
-                           variant="outlined"
-                           color="primary"
-                           fullWidth
-                           required
-                           error={emailError}
-                           helperText={emailErrorDesc}
-                />
-                <TextField className={classes.field}
-                           onChange={(e) => setPassword(e.target.value)}
-                           label="Password"
-                           variant="outlined"
-                           color="primary"
-                           fullWidth
-                           required
-                           error={passwordError}
-                           helperText={passwordErrorDesc}
-                           type="password"
-                />
-
-                <Button
-                    type="submit"
-                    color="primary"
-                    variant="contained"
-                    endIcon={<KeyboardArrowRight/>}>
-                    Sign Up
-                </Button>
-
-            </form>
+                                    <AuthInput
+                                        name="firstName"
+                                        label="First Name"
+                                        handleChange={handleChange}
+                                        autoFocus
+                                        half
+                                    />
+                                    <AuthInput
+                                        name="lastName"
+                                        label="Last Name"
+                                        handleChange={handleChange}
+                                        half
+                                    />
+                                </>
+                            )
+                        }
+                        <AuthInput name="email" label="Email Adress" handleChange={handleChange} type="email" />
+                        <AuthInput name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
+                        { isSignup && <AuthInput name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password"/> }
+                    </Grid>
+                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                        {isSignup ? 'Sign Up' : 'Sign In'}
+                    </Button>
+                    <GoogleLogin
+                        clientId="1096704875465-rkka0uav7vlag0tutfbt97ue59vlmsov.apps.googleusercontent.com"
+                        render={(renderProps) => (
+                            <Button
+                                className={classes.googleButton}
+                                color="primary"
+                                fullWidth
+                                onClick={renderProps.onClick}
+                                disabled={renderProps.disabled}
+                                startIcon={<GoogleIcon />}
+                                variant="contained"
+                            >
+                                Google Sign In
+                            </Button>
+                        )}
+                        onSuccess={googleSuccess}
+                        onFailure={googleFailure}
+                        cookiePolicy="single_host_origin"
+                    />
+                    <Grid container justify="center">
+                        <Grid item>
+                            <Button onClick={switchMode}>
+                                { isSignup ? 'Already have an account? Sign In' : 'Don\'t have an account? Sign Up' }
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Paper>
         </Container>
     );
 }
