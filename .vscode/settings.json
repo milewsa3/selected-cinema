@@ -1,8 +1,0 @@
-{
-    "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}"
-    ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/1e811bf1-0e82-40f5-903b-4892ed958588/resourceGroups/appsvc_linux_centralus_basic/providers/Microsoft.Web/sites/selected-cinema-backend",
-    "appService.deploySubpath": "backend"
-}
