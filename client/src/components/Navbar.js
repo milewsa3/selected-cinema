@@ -1,7 +1,9 @@
 import {
     AppBar,
+    Button,
     Divider,
-    Drawer, IconButton, Link,
+    Drawer,
+    IconButton,
     List,
     ListItem,
     ListItemIcon,
@@ -9,19 +11,19 @@ import {
     Typography,
     useMediaQuery
 } from "@material-ui/core";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import React, {useState} from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import {makeStyles, useTheme} from '@material-ui/core/styles';
+import React, {useEffect, useState} from "react";
+import {NavLink, useHistory, useLocation, Link} from "react-router-dom";
 
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import MovieFilterIcon from '@material-ui/icons/MovieFilter';
 import InfoIcon from '@material-ui/icons/Info';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
+import {useDispatch} from "react-redux";
+import decode from 'jwt-decode'
+import {LOGOUT} from "../constants/actionTypes";
 
 const useStyles = makeStyles( (theme) => ({
     topNav: {
@@ -33,6 +35,7 @@ const useStyles = makeStyles( (theme) => ({
     links: {
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
         width: '30vw',
         '& *': {
             textDecoration: 'none',
@@ -61,11 +64,33 @@ const useStyles = makeStyles( (theme) => ({
 }))
 
 export default function Navbar() {
-    const classes = useStyles()
+    const dispatch = useDispatch()
+    const history = useHistory()
     const location = useLocation()
+    const classes = useStyles()
     const theme = useTheme()
-    const mobileMenu = useMediaQuery(theme.breakpoints.down('sm'))
+
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+    const isMobileMenu = useMediaQuery(theme.breakpoints.down('sm'))
     const [menuOpened, setMenuOpened] = useState(false)
+
+    const logout = () => {
+        dispatch({ type: LOGOUT })
+        history.push('/')
+        setUser(null)
+    }
+
+    useEffect(() => {
+        const token = user?.token
+
+        if (token) {
+            const decodedToken = decode(token)
+            if (decodedToken.exp * 1000 < new Date().getTime()) logout()
+        }
+
+        setUser(JSON.parse(localStorage.getItem('profile')))
+    }, [location])
+
 
     const handleDrawerOpen = () => {
         setMenuOpened(true)
@@ -91,19 +116,9 @@ export default function Navbar() {
             path: '/about',
             icon: <InfoIcon />
         },
-        {
-            title: 'Sign In',
-            path: '/login',
-            icon: <AddToHomeScreenIcon/>
-        },
-        {
-            title: 'Sign Up',
-            path: '/signup',
-            icon: <VpnKeyIcon />
-        },
     ]
 
-    const list = () => (
+    const mobileMenu = () => (
         <div
             className={classes.list}
             role="presentation"
@@ -121,6 +136,28 @@ export default function Navbar() {
                         </NavLink>
                     </ListItem>
                 ))}
+                {user ? (
+                    <ListItem
+                        button
+                        key="logout"
+                    >
+                        <NavLink exact to={"/logout"} activeClassName={classes.active} className={classes.mobileItem}>
+                            <ListItemIcon><VpnKeyIcon /></ListItemIcon>
+                            <ListItemText primary="Logout" />
+                        </NavLink>
+                    </ListItem>
+                ) : (
+
+                    <ListItem
+                        button
+                        key="sign up"
+                    >
+                        <NavLink exact to={"/auth"} activeClassName={classes.active} className={classes.mobileItem}>
+                            <ListItemIcon><VpnKeyIcon /></ListItemIcon>
+                            <ListItemText primary="Sign up" />
+                        </NavLink>
+                    </ListItem>
+                )}
             </List>
             <Divider />
         </div>
@@ -133,7 +170,7 @@ export default function Navbar() {
                     <NavLink exact to="/" className={classes.clearLink}>Selected</NavLink>
                 </Typography>
 
-                {mobileMenu ? (
+                {isMobileMenu ? (
                     <div>
                         <IconButton
                             color="inherit"
@@ -143,7 +180,7 @@ export default function Navbar() {
                             <MenuIcon />
                         </IconButton>
                         <Drawer anchor="right" open={menuOpened} onClose={() => handleDrawerClose()}>
-                            {list()}
+                            {mobileMenu()}
                         </Drawer>
                     </div>
                     )
@@ -153,6 +190,11 @@ export default function Navbar() {
                         {tabs.map(tab => (
                             <NavLink exact to={tab.path} activeClassName={classes.active}>{tab.title}</NavLink>
                         ))}
+                        {user ? (
+                            <Button component={Link} to="/logout" variant="contained" color="secondary" onClick={logout}>Logout</Button>
+                        ) : (
+                            <Button size="small" component={Link} to="/auth" variant="contained" color="secondary">Sign up</Button>
+                        )}
                     </div>
                 )}
             </Toolbar>

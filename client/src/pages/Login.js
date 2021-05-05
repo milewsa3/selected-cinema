@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Login = (props) => {
+const Auth = (props) => {
     const classes = useStyles()
 
     const [email, setEmail] = useState('')
@@ -98,4 +98,4 @@ const Login = (props) => {
     );
 }
 
-export default Login;
+export default Auth;

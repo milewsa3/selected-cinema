@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Signup = (props) => {
+const Auth = (props) => {
     const classes = useStyles()
     const history = useHistory()
 
@@ -137,4 +137,4 @@ const Signup = (props) => {
     );
 }
 
-export default Signup;
+export default Auth;

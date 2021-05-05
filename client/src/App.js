@@ -4,7 +4,7 @@ import About from './pages/About'
 import {createMuiTheme, ThemeProvider} from '@material-ui/core'
 import {blue, pink} from '@material-ui/core/colors'
 import Navbar from './components/Navbar'
-import Signup from './pages/Signup'
+import Auth from './pages/Auth'
 import Films from './pages/Films'
 import Login from "./pages/Login";
 
@@ -25,8 +25,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/films" component={Films} />
           <Route path="/about" component={About} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
+          <Route path="/auth" component={Auth} />
         </Switch>
       </Router>
     </ThemeProvider>
