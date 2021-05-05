@@ -34,13 +34,17 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
-// routes
+// Home page
+app.get('/', (req, res) => res.send('Welcome to Selected Cinema API'))
+
+// Routes
 app.use('/users', userRoutes);
 app.use('/screenings', screeningRoutes);
 app.use('/movies', movieRoutes);
 app.use('/reservations', reservationRoutes);
 app.use('/auth', authRoutes)
 
+// 404 Error
 app.use((req, res) => {
     res.status(404).json({message: "Ooops... something went wrong"})
 })
