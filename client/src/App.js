@@ -1,8 +1,8 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core'
-import {blue, pink, red} from '@material-ui/core/colors'
+import {createMuiTheme, ThemeProvider} from '@material-ui/core'
+import {blue, pink} from '@material-ui/core/colors'
 import Navbar from './components/Navbar'
 import Signup from './pages/Signup'
 import Films from './pages/Films'
@@ -22,21 +22,11 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/films">
-            <Films />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/signup">
-            <Signup />
-          </Route>
+          <Route exact path="/" component={Home} />
+          <Route path="/films" component={Films} />
+          <Route path="/about" component={About} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
         </Switch>
       </Router>
     </ThemeProvider>
