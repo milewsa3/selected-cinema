@@ -1,9 +1,9 @@
-import { Grid, IconButton, InputAdornment, TextField } from "@material-ui/core";
+import {Grid, IconButton, InputAdornment, TextField} from "@material-ui/core";
 
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
-const AuthInput = ({name, handleChange, label, half, autoFocus, type, handleShowPassword}) => {
+const AuthInput = ({name, handleChange, label, half, autoFocus, type, handleShowPassword, error, helperText}) => {
     return (
         <Grid item xs={12} sm={half ? 6 : 12}>
             <TextField
@@ -15,6 +15,8 @@ const AuthInput = ({name, handleChange, label, half, autoFocus, type, handleShow
                 label={label}
                 autoFocus={autoFocus}
                 type={type}
+                error={error}
+                helperText={helperText}
                 InputProps={name === 'password' ? {
                     endAdornment: (
                         <InputAdornment position="end">

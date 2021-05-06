@@ -1,8 +1,6 @@
-import {Button, Container, Typography, useMediaQuery} from "@material-ui/core";
+import {Container, Typography, useMediaQuery} from "@material-ui/core";
 import {makeStyles, useTheme} from '@material-ui/core/styles';
-import React, {useState} from "react";
-import useWindowDimensions from "../hooks/useWindowDimensions";
-import * as ReactDOM from "react-dom";
+import React from "react";
 import clsx from "clsx";
 import BottomFooter from "../components/BottomFooter";
 

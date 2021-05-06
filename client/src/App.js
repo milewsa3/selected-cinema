@@ -6,7 +6,6 @@ import {blue, pink} from '@material-ui/core/colors'
 import Navbar from './components/Navbar'
 import Auth from './pages/Auth'
 import Films from './pages/Films'
-import Login from "./pages/Login";
 
 const theme = createMuiTheme({
   palette: {

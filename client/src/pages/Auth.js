@@ -1,12 +1,11 @@
-import { Avatar, Button, Container, Grid, Paper, Typography } from '@material-ui/core';
+import {Avatar, Button, Container, Grid, makeStyles, Paper, Typography} from '@material-ui/core';
 import {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
-import {makeStyles} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import {useDispatch, useSelector} from "react-redux";
-import {AUTH, AUTH_FAILURE, AUTH_REQUEST, AUTH_SUCCESS} from "../constants/actionTypes";
+import {AUTH_CLEARED, AUTH_FAILURE, AUTH_REQUEST, AUTH_SUCCESS} from "../constants/actionTypes";
 import {signin, signup} from "../actions/authActions";
-import { GoogleLogin } from 'react-google-login'
+import {GoogleLogin} from 'react-google-login'
 import AuthInput from "../components/AuthInput";
 import GoogleIcon from '../utils/googleIcon'
 
@@ -46,11 +45,16 @@ const Auth = (props) => {
     const classes = useStyles()
     const history = useHistory()
     const dispatch = useDispatch()
-    const state = useSelector(state => state)
+    const error = useSelector(state => state.auth.error)
 
     const [showPassword, setShowPassword] = useState(false)
     const [isSignup, setIsSignup] = useState(false)
     const [formData, setFormData] = useState(initialState)
+
+    useEffect(() => {
+        dispatch({ type: AUTH_CLEARED })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value})
@@ -113,19 +117,23 @@ const Auth = (props) => {
                                         handleChange={handleChange}
                                         autoFocus
                                         half
+                                        error={Boolean(error?.firstName)}
+                                        helperText={error?.firstName}
                                     />
                                     <AuthInput
                                         name="lastName"
                                         label="Last Name"
                                         handleChange={handleChange}
                                         half
+                                        error={Boolean(error?.lastName)}
+                                        helperText={error?.lastName}
                                     />
                                 </>
                             )
                         }
-                        <AuthInput name="email" label="Email Adress" handleChange={handleChange} type="email" />
-                        <AuthInput name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
-                        { isSignup && <AuthInput name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password"/> }
+                        <AuthInput name="email" label="Email Address" handleChange={handleChange} type="email" error={Boolean(error?.email)} helperText={error?.email}/>
+                        <AuthInput name="password" label="Password" handleChange={handleChange} error={Boolean(error?.password)} helperText={error?.password} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
+                        { isSignup && <AuthInput name="confirmPassword" label="Repeat Password" handleChange={handleChange} error={Boolean(error?.confirmPassword)} helperText={error?.confirmPassword} type="password"/> }
                     </Grid>
                     <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                         {isSignup ? 'Sign Up' : 'Sign In'}

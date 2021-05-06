@@ -1,5 +1,6 @@
 import {
-    AppBar, Avatar,
+    AppBar,
+    Avatar,
     Button,
     Divider,
     Drawer,
@@ -13,7 +14,7 @@ import {
 } from "@material-ui/core";
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import React, {useEffect, useState} from "react";
-import {NavLink, useHistory, useLocation, Link} from "react-router-dom";
+import {Link, NavLink, useHistory, useLocation} from "react-router-dom";
 
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -95,6 +96,7 @@ export default function Navbar() {
         }
 
         setUser(JSON.parse(localStorage.getItem('profile')))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location])
 
 
@@ -145,7 +147,7 @@ export default function Navbar() {
                 {user ? (
                     <ListItem
                         button
-                        key="logout"
+                        key={"logout"}
                     >
                         <div className={classes.mobileItem} onClick={logout}>
                             <ListItemIcon><VpnKeyIcon /></ListItemIcon>
@@ -194,7 +196,7 @@ export default function Navbar() {
                     (
                     <div className={classes.links}>
                         {tabs.map(tab => (
-                            <NavLink exact to={tab.path} activeClassName={classes.active}>{tab.title}</NavLink>
+                            <NavLink exact to={tab.path} activeClassName={classes.active} key={tab.title}>{tab.title}</NavLink>
                         ))}
                         {user ? (
                             <>

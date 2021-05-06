@@ -1,4 +1,4 @@
-import {AUTH, AUTH_FAILURE, AUTH_REQUEST, AUTH_SUCCESS, LOGOUT} from "../constants/actionTypes"
+import {AUTH_CLEARED, AUTH_FAILURE, AUTH_REQUEST, AUTH_SUCCESS, LOGOUT} from "../constants/actionTypes"
 
 const initState = {
     authData: null,
@@ -27,6 +27,13 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 loading: false,
                 error: action.error,
+                authData: null
+            }
+        case AUTH_CLEARED:
+            return {
+                ...state,
+                loading: false,
+                error: null,
                 authData: null
             }
         case LOGOUT:

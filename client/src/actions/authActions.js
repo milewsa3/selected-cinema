@@ -1,4 +1,4 @@
-import {AUTH, AUTH_FAILURE, AUTH_REQUEST, AUTH_SUCCESS} from '../constants/actionTypes'
+import {AUTH_FAILURE, AUTH_REQUEST, AUTH_SUCCESS} from '../constants/actionTypes'
 import * as api from '../api'
 
 export const signin = (formData, history) => async (dispatch) => {
@@ -10,7 +10,7 @@ export const signin = (formData, history) => async (dispatch) => {
 
         history.push('/')
     } catch (error) {
-        dispatch({ type: AUTH_FAILURE, error })
+        dispatch({ type: AUTH_FAILURE, error: error.response.data.error })
     }
 }
 
@@ -23,6 +23,6 @@ export const signup = (formData, history) => async (dispatch) => {
 
         history.push('/')
     } catch (error) {
-        dispatch({ type: AUTH_FAILURE, error })
+        dispatch({ type: AUTH_FAILURE, error: error.response.data.error })
     }
 }

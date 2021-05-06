@@ -1,19 +1,17 @@
 import {makeStyles} from "@material-ui/core/styles";
 import {
-    Button,
     Card,
     CardActionArea,
     CardActions,
     CardContent,
-    CardMedia, Collapse,
+    CardMedia,
+    Collapse,
     IconButton,
     Typography
 } from "@material-ui/core";
-import {useEffect, useState} from "react";
-import {red} from "@material-ui/core/colors";
+import {useState} from "react";
 import clsx from "clsx";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {InfoOutlined} from "@material-ui/icons";
 import useFetch from "../utils/useFetch";
 import Skeleton from '@material-ui/lab/Skeleton';
 
@@ -49,7 +47,7 @@ export default function FilmCard({ film }) {
         let result = string
 
         const specialCharacters = ['%']
-        specialCharacters.map(character => {
+        specialCharacters.forEach(character => {
             result = result.replace(character, '')
         })
 
