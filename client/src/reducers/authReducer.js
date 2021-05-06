@@ -1,15 +1,43 @@
-import { AUTH, LOGOUT } from "../constants/actionTypes"
+import {AUTH, AUTH_FAILURE, AUTH_REQUEST, AUTH_SUCCESS, LOGOUT} from "../constants/actionTypes"
 
-const authReducer = (state = { authData: null }, action) => {
+const initState = {
+    authData: null,
+    loading: false,
+    error: null
+}
+
+const authReducer = (state = initState, action) => {
     switch (action.type) {
-        case AUTH:
-            localStorage.setItem('profile', JSON.stringify({ ...action?.data }))
+        case AUTH_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null
+            }
+        case AUTH_SUCCESS:
+            localStorage.setItem('profile', JSON.stringify({ ...action?.payload }))
 
-            return {...state, authData: action.data, loading: false, errors: null}
+            return {
+                ...state,
+                loading: false,
+                authData: action.payload
+            }
+        case AUTH_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+                authData: null
+            }
         case LOGOUT:
             localStorage.clear()
 
-            return { ...state, authData: null, loading: false, errors: null }
+            return {
+                ...state,
+                authData: null,
+                loading: false,
+                error: null
+            }
         default:
             return state
     }

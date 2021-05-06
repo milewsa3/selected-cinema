@@ -1,10 +1,10 @@
 import { Avatar, Button, Container, Grid, Paper, Typography } from '@material-ui/core';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
-import {useDispatch} from "react-redux";
-import {AUTH} from "../constants/actionTypes";
+import {useDispatch, useSelector} from "react-redux";
+import {AUTH, AUTH_FAILURE, AUTH_REQUEST, AUTH_SUCCESS} from "../constants/actionTypes";
 import {signin, signup} from "../actions/authActions";
 import { GoogleLogin } from 'react-google-login'
 import AuthInput from "../components/AuthInput";
@@ -46,11 +46,11 @@ const Auth = (props) => {
     const classes = useStyles()
     const history = useHistory()
     const dispatch = useDispatch()
+    const state = useSelector(state => state)
 
     const [showPassword, setShowPassword] = useState(false)
     const [isSignup, setIsSignup] = useState(false)
     const [formData, setFormData] = useState(initialState)
-
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value})
@@ -67,14 +67,16 @@ const Auth = (props) => {
     }
 
     const googleSuccess = async (res) => {
+        dispatch({ type: AUTH_REQUEST })
+
         const result = res?.profileObj
         const token = res?.tokenId
 
         try {
-            dispatch({ type: AUTH, data: { result, token } })
+            dispatch({ type: AUTH_SUCCESS, payload: { result, token } })
             history.push('/')
         } catch (error) {
-            console.log(error)
+            dispatch({ type: AUTH_FAILURE, error })
         }
     }
 
