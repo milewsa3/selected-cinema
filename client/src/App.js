@@ -6,6 +6,7 @@ import {blue, pink} from '@material-ui/core/colors'
 import Navbar from './components/Navbar'
 import Auth from './pages/Auth'
 import Films from './pages/Films'
+import Dashboard from "./pages/Dashboard";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/films" component={Films} />
           <Route path="/about" component={About} />
           <Route path="/auth" component={Auth} />
+          <Route path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>
     </ThemeProvider>

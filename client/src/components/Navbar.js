@@ -108,10 +108,28 @@ export default function Navbar() {
         setMenuOpened(false)
     }
 
-    const tabs = [
+    const tabsForNotLoggedInUsers = [
         {
             title: 'Home',
             path: '/',
+            icon: <HomeIcon />
+        },
+        {
+            title: 'Films',
+            path: '/films',
+            icon: <MovieFilterIcon />
+        },
+        {
+            title: 'About',
+            path: '/about',
+            icon: <InfoIcon />
+        },
+    ]
+
+    const tabsForLoggedInUsers = [
+        {
+            title: 'Dashboard',
+            path: '/dashboard',
             icon: <HomeIcon />
         },
         {
@@ -133,38 +151,52 @@ export default function Navbar() {
             onClick={() => handleDrawerClose()}
         >
             <List>
-                {tabs.map((tab, index) => (
-                    <ListItem
-                        button
-                        key={tab.title}
-                    >
-                        <NavLink exact to={tab.path} activeClassName={classes.active} className={classes.mobileItem}>
-                            <ListItemIcon>{tab.icon}</ListItemIcon>
-                            <ListItemText primary={tab.title} />
-                        </NavLink>
-                    </ListItem>
-                ))}
                 {user ? (
-                    <ListItem
-                        button
-                        key={"logout"}
-                    >
-                        <div className={classes.mobileItem} onClick={logout}>
-                            <ListItemIcon><VpnKeyIcon /></ListItemIcon>
-                            <ListItemText primary="Logout" />
-                        </div>
-                    </ListItem>
+                    <>
+                        {tabsForLoggedInUsers.map((tab, index) => (
+                            <ListItem
+                                button
+                                key={tab.title}
+                            >
+                                <NavLink exact to={tab.path} activeClassName={classes.active} className={classes.mobileItem}>
+                                    <ListItemIcon>{tab.icon}</ListItemIcon>
+                                    <ListItemText primary={tab.title} />
+                                </NavLink>
+                            </ListItem>
+                        ))}
+                        <ListItem
+                            button
+                            key={"logout"}
+                        >
+                            <div className={classes.mobileItem} onClick={logout}>
+                                <ListItemIcon><VpnKeyIcon /></ListItemIcon>
+                                <ListItemText primary="Logout" />
+                            </div>
+                        </ListItem>
+                    </>
                 ) : (
-
-                    <ListItem
-                        button
-                        key="sign up"
-                    >
-                        <NavLink exact to={"/auth"} activeClassName={classes.active} className={classes.mobileItem}>
-                            <ListItemIcon><VpnKeyIcon /></ListItemIcon>
-                            <ListItemText primary="Sign up" />
-                        </NavLink>
-                    </ListItem>
+                    <>
+                        {tabsForNotLoggedInUsers.map((tab, index) => (
+                            <ListItem
+                                button
+                                key={tab.title}
+                            >
+                                <NavLink exact to={tab.path} activeClassName={classes.active} className={classes.mobileItem}>
+                                    <ListItemIcon>{tab.icon}</ListItemIcon>
+                                    <ListItemText primary={tab.title} />
+                                </NavLink>
+                            </ListItem>
+                        ))}
+                        <ListItem
+                            button
+                            key="sign up"
+                        >
+                            <NavLink exact to={"/auth"} activeClassName={classes.active} className={classes.mobileItem}>
+                                <ListItemIcon><VpnKeyIcon /></ListItemIcon>
+                                <ListItemText primary="Sign up" />
+                            </NavLink>
+                        </ListItem>
+                    </>
                 )}
             </List>
             <Divider />
@@ -195,17 +227,22 @@ export default function Navbar() {
                     :
                     (
                     <div className={classes.links}>
-                        {tabs.map(tab => (
-                            <NavLink exact to={tab.path} activeClassName={classes.active} key={tab.title}>{tab.title}</NavLink>
-                        ))}
                         {user ? (
                             <>
+                                {tabsForLoggedInUsers.map(tab => (
+                                    <NavLink exact to={tab.path} activeClassName={classes.active} key={tab.title}>{tab.title}</NavLink>
+                                ))}
                                 <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
                                 <Typography variant="h6" className={classes.userName}>{user.result.name}</Typography>
                                 <Button size="small" variant="contained" color="secondary" onClick={logout} className={classes.logoutBtn}>Logout</Button>
                             </>
                         ) : (
-                            <Button size="small" component={Link} to="/auth" variant="contained" color="secondary">Sign up</Button>
+                            <>
+                                {tabsForNotLoggedInUsers.map(tab => (
+                                    <NavLink exact to={tab.path} activeClassName={classes.active} key={tab.title}>{tab.title}</NavLink>
+                                ))}
+                                <Button size="small" component={Link} to="/auth" variant="contained" color="secondary">Sign up</Button>
+                            </>
                         )}
                     </div>
                 )}
