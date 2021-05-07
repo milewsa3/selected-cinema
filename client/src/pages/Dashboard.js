@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {Button, Container, Grid, Grow, Paper, Snackbar, TextField, Typography} from "@material-ui/core";
+import React from 'react';
+import {Container, Grid, Grow, Paper, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {Alert} from "@material-ui/lab";
 import Newsletter from "../components/Newsletter";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = () => {
     const classes = useStyles()
+    const history = useHistory()
 
     return (
         <Container maxWidth="lg" className={classes.root}>
@@ -55,7 +56,7 @@ const Dashboard = () => {
                         </Paper>
                     </Grid>
                     <Grid item xs={12}>
-                        <Paper className={classes.card} elevation={8}>
+                        <Paper className={classes.card} elevation={8} onClick={() => history.push('/reservation')}>
                             <Typography variant="h3">
                                 Make reservation!
                             </Typography>

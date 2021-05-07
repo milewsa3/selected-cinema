@@ -7,6 +7,7 @@ import Navbar from './components/Navbar'
 import Auth from './pages/Auth'
 import Films from './pages/Films'
 import Dashboard from "./pages/Dashboard";
+import MakeReservation from "./pages/MakeReservation";
 
 const theme = createMuiTheme({
   palette: {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/about" component={About} />
           <Route path="/auth" component={Auth} />
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/reservation" component={MakeReservation} />
         </Switch>
       </Router>
     </ThemeProvider>
