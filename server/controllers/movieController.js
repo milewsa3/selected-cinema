@@ -1,7 +1,9 @@
 const Movie = require("../models/Movie");
 
 const movie_get = (req, res) => {
-    Movie.find()
+    const filter = req.query.ids ? { _id: { $in: req.query.ids } } : null
+
+    Movie.find(filter)
         .then(result => {
             res.json(result);
         })
@@ -62,5 +64,5 @@ module.exports = {
     movie_get_id,
     movie_post,
     movie_put,
-    movie_delete
+    movie_delete,
 }

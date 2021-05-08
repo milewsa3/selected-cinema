@@ -57,10 +57,29 @@ const screening_delete = (req, res) => {
         })
 }
 
+const screening_dated_get = (req, res) => {
+    const date = new Date(req.params.date)
+
+    const filter = {
+        "date": {
+            $gt: new Date(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1} 23:59:59`),
+            $lt: new Date(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} 23:59:59`) },
+    }
+
+    Screening.distinct("movie_id", filter)
+        .then(result => {
+            res.json(result)
+        })
+        .catch(err => {
+            res.status(400).json('Error: ' + err)
+        })
+}
+
 module.exports = {
     screening_get,
     screening_get_id,
     screening_post,
     screening_put,
-    screening_delete
+    screening_delete,
+    screening_dated_get
 }
