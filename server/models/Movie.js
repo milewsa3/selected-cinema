@@ -6,10 +6,12 @@ const movieSchema = new Schema({
     title: {
         type: String,
         required: true,
+        unique: true
     },
     screenings_ids: [{
         type: ObjectId
     }],
+    TMDB: String,
 }, { timestamps: true });
 
 const Movie = mongoose.model('Movie', movieSchema);
