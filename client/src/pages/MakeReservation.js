@@ -6,6 +6,10 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { DataGrid } from '@material-ui/data-grid';
+import FirstStep from "../components/reservation/FirstStep";
+import SecondStep from "../components/reservation/SecondStep";
+
 
 const useStyles = makeStyles(theme => ({
     mainContainer: {
@@ -16,42 +20,17 @@ const useStyles = makeStyles(theme => ({
         width: '90%',
         marginTop: theme.spacing(2),
     },
-    dataPickerCard: {
-        backgroundColor: 'white',
-        borderRadius: '90px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: '0px',
-        width: '40%',
-        marginBottom: theme.spacing(4),
-        [theme.breakpoints.down('md')]: {
-            width: '80%'
-        }
-    },
     stepLabel: {
         marginBottom: theme.spacing(4)
     },
-    box: {
-        width: '100%',
-        marginBottom: theme.spacing(4),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    }
 }))
 
 function MakeReservation(props) {
     const classes = useStyles()
-    const [selectedDate, setSelectedDate] = useState(Date.now());
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
 
     return (
         <Grow in>
-            <Container maxWidth="lg" className={classes.mainContainer}>
+            <Container display="flex" justifyContent="center" maxWidth="lg" className={classes.mainContainer}>
                 <Typography align="flex-start" variant="h3">
                     Make reservation!
                 </Typography>
@@ -59,35 +38,11 @@ function MakeReservation(props) {
                     <Typography variant="h5" className={classes.stepLabel}>
                         1. Choose date
                     </Typography>
-                    <Grow in>
-                        <Grid container spacing={3} flexDirection="column">
-                            <Box className={classes.box}>
-                                <div className={classes.dataPickerCard}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            disableToolbar
-                                            variant="inline"
-                                            format="MM/dd/yyyy"
-                                            margin="normal"
-                                            id="date-picker-inline"
-                                            label="Date picker inline"
-                                            value={selectedDate}
-                                            onChange={handleDateChange}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change date',
-                                            }}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                                </div>
-                                <Button variant="contained" color="primary">
-                                    Search for films
-                                </Button>
-                            </Box>
-                        </Grid>
-                    </Grow>
+                    <FirstStep />
                     <Typography variant="h5">
                         2. Choose film
                     </Typography>
+                    <SecondStep />
                 </Container>
 
             </Container>

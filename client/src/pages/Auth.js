@@ -110,7 +110,6 @@ const Auth = (props) => {
                         {
                             isSignup && (
                                 <>
-
                                     <AuthInput
                                         name="firstName"
                                         label="First Name"
