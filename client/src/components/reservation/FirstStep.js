@@ -49,9 +49,9 @@ const FirstStep = () => {
                             />
                         </MuiPickersUtilsProvider>
                     </div>
-                    <Button variant="contained" color="primary">
-                        Search for films
-                    </Button>
+                    {/*<Button variant="contained" color="primary">*/}
+                    {/*    Search for films*/}
+                    {/*</Button>*/}
                 </Box>
             </Grid>
         </Grow>
