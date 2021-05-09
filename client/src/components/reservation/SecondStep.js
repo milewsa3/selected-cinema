@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import {makeStyles, useTheme} from "@material-ui/core/styles";
 import MobileStepper from "@material-ui/core/MobileStepper";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -73,8 +73,7 @@ const SecondStep = () => {
     const maxSteps = tutorialSteps.length;
 
     useEffect(async () => {
-        const movies = await getMoviesByDate('2021-04-07')
-        console.log(movies)
+        const movies = await getMoviesByDate('2021-05-9')
     }, []);
 
 
