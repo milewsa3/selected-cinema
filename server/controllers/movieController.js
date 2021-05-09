@@ -48,7 +48,7 @@ const movie_post = async (req, res) => {
         if (queryResult.results.length === 0)
             throw new Error('Film of that title does not exist in TMDB')
 
-        const movie = new Movie({ title, TMDB: JSON.stringify(queryResult.results[0]) });
+        const movie = new Movie({ title: queryResult.results[0].title, TMDB: JSON.stringify(queryResult.results[0]) });
         const savedMovie = await movie.save()
         res.json(savedMovie)
     } catch(err) {
