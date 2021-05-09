@@ -9,7 +9,7 @@ import {
     IconButton,
     Typography
 } from "@material-ui/core";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import clsx from "clsx";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useFetch from "../utils/useFetch";
@@ -38,36 +38,25 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
+function removeSpecialChars(string) {
+    let result = string
+
+    const specialCharacters = ['%']
+    specialCharacters.forEach(character => {
+        result = result.replace(character, '')
+    })
+
+    return result
+}
+
 export default function FilmCard({ film }) {
     const classes = useStyles(film)
     const [expanded, setExpanded] = useState(false)
-    let filmData = null
+    const [filmData, setFilmData] = useState(null)
 
-    function removeSpecialChars(string) {
-        let result = string
-
-        const specialCharacters = ['%']
-        specialCharacters.forEach(character => {
-            result = result.replace(character, '')
-        })
-
-        return result
-    }
-
-    const setFilmData = (data) => {
-        filmData = data
-    }
-
-    let { data, error, isPending } =
-        useFetch(`https://api.themoviedb.org/3/search/movie?api_key=a11ffe1b32709f5551e64f4683d948a3&query=${removeSpecialChars(film.title)}&language=${'en-en'}`)
-
-    if (data) {
-        if (data.results[0]) {
-            setFilmData(data.results[0])
-        } else {
-            error = {message: 'There is no such film like: ' + film.title}
-        }
-    }
+    useEffect(() => {
+        setFilmData(JSON.parse(film.TMDB))
+    }, [])
 
     const handleExpandClick = () => {
         setExpanded(!expanded)
@@ -80,9 +69,8 @@ export default function FilmCard({ film }) {
 
     return(
         <div>
-            { isPending && <Skeleton variant="rect" width={168} height={420} animation="wave" className={classes.skeleton}/> }
-            { error && <div>{ error }</div> }
-            { data && (
+            { !filmData && <Skeleton variant="rect" width={168} height={420} animation="wave" className={classes.skeleton}/> }
+            { filmData && (
                 <Card className={classes.root}>
                     <CardActionArea onClick={() => openInNewTab(
                         'https://www.themoviedb.org/movie/' + filmData['id'] + '-' + removeSpecialChars(filmData['title']).replace(' ', '-')
