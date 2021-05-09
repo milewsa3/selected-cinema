@@ -20,9 +20,8 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const FirstStep = () => {
+const FirstStep = ({selectedDate , setSelectedDate}) => {
     const classes = useStyles()
-    const [selectedDate, setSelectedDate] = useState(Date.now());
 
     const handleDateChange = (date) => {
         setSelectedDate(date);

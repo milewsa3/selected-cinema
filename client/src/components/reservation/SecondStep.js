@@ -11,7 +11,7 @@ import {getMoviesByDate} from "../../api";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: 400,
+        maxWidth: 300,
         marginBottom: theme.spacing(4),
         margin: "0 auto",
         display: "flex",
@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.default
     },
     img: {
-        height: 255,
+        height: 450,
         display: "block",
-        maxWidth: 400,
+        maxWidth: 300,
         overflow: "hidden",
         width: "100%"
     },
@@ -38,42 +38,44 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const tutorialSteps = [
+const availableMovies = [
     {
         label: "San Francisco – Oakland Bay Bridge, United States",
         imgPath:
-            "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60"
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6OnlqShdRinhJwV1uGiRE70lD63.jpg"
     },
     {
         label: "Bird",
         imgPath:
-            "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60"
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/zvugkRK6vpbPBv63jETof2ZIf9f.jpg"
     },
     {
         label: "Bali, Indonesia",
         imgPath:
-            "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80"
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/dkokENeY5Ka30BFgWAqk14mbnGs.jpg"
     },
     {
         label: "NeONBRAND Digital Marketing, Las Vegas, United States",
         imgPath:
-            "https://images.unsplash.com/photo-1518732714860-b62714ce0c59?auto=format&fit=crop&w=400&h=250&q=60"
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/Q1ZYG3kDS8iVIHOYOJ9NQmV0q7.jpg"
     },
     {
         label: "Goč, Serbia",
         imgPath:
-            "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60"
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/340AAxjvtGXChWkqhIlScZTSokq.jpg"
     }
 ];
 
-const SecondStep = () => {
+const SecondStep = ({selectedFilm, setSelectedFilm, selectedDate}) => {
     const classes = useStyles();
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
-    const maxSteps = tutorialSteps.length;
+    const maxSteps = availableMovies.length;
 
     useEffect(async () => {
-        const movies = await getMoviesByDate('2021-05-9')
+        console.log(new Date(selectedDate))
+        const movies = await getMoviesByDate(new Date(selectedDate))
+        console.log(movies)
     }, []);
 
 
@@ -92,7 +94,7 @@ const SecondStep = () => {
     return (
         <div className={classes.root}>
             <Paper square elevation={0} className={classes.header}>
-                <Typography>{tutorialSteps[activeStep].label}</Typography>
+                <Typography>{availableMovies[activeStep].label}</Typography>
             </Paper>
             <SwipeableViews
                 axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -100,7 +102,7 @@ const SecondStep = () => {
                 onChangeIndex={handleStepChange}
                 enableMouseEvents
             >
-                {tutorialSteps.map((step, index) => (
+                {availableMovies.map((step, index) => (
                     <div key={step.label}>
                         {Math.abs(activeStep - index) <= 2 ? (
                             <img

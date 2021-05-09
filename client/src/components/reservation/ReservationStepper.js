@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -26,30 +26,29 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-function getStepContent(step) {
-    switch (step) {
-        case 0:
-            return <FirstStep />
-        case 1:
-            return <SecondStep />
-        case 2:
-            return <Typography>Try out different ad text to see what brings in the most customers,
-                and learn how to enhance your ads using features like ad extensions.
-                If you run into any problems with your ads, find out how to tell if
-                they're running and how to resolve approval issues.</Typography>
-        default:
-            return 'Unknown step';
-    }
-}
-
-function getSteps() {
-    return ['Choose date', 'Choose film', 'Have fun'];
-}
-
 const ReservationStepper = () => {
     const classes = useStyles()
     const [activeStep, setActiveStep] = React.useState(0);
-    const steps = getSteps();
+    const [selectedDate, setSelectedDate] = useState(Date.now());
+    const [selectedFilm, setSelectedFilm] = useState(0)
+
+    const steps = ['Choose date', 'Choose film', 'Have fun'];
+
+    const getStepContent = (step) => {
+        switch (step) {
+            case 0:
+                return <FirstStep selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
+            case 1:
+                return <SecondStep selectedFilm={selectedFilm} setSelectedFilm={setSelectedFilm} selectedDate={selectedDate}/>
+            case 2:
+                return <Typography>Try out different ad text to see what brings in the most customers,
+                    and learn how to enhance your ads using features like ad extensions.
+                    If you run into any problems with your ads, find out how to tell if
+                    they're running and how to resolve approval issues.</Typography>
+            default:
+                return 'Unknown step';
+        }
+    }
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
