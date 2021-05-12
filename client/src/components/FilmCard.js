@@ -12,7 +12,6 @@ import {
 import {useEffect, useState} from "react";
 import clsx from "clsx";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import useFetch from "../utils/useFetch";
 import Skeleton from '@material-ui/lab/Skeleton';
 
 
@@ -56,7 +55,7 @@ export default function FilmCard({ film }) {
 
     useEffect(() => {
         setFilmData(JSON.parse(film.TMDB))
-    }, [])
+    }, [film.TMDB])
 
     const handleExpandClick = () => {
         setExpanded(!expanded)

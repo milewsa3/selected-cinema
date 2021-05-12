@@ -7,6 +7,8 @@ import {Button, Paper, Typography} from "@material-ui/core";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import {makeStyles} from "@material-ui/core/styles";
+import ThirdStep from "./ThirdStep";
+import FourthStep from "./FourthStep";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,21 +32,25 @@ const ReservationStepper = () => {
     const classes = useStyles()
     const [activeStep, setActiveStep] = React.useState(0);
     const [selectedDate, setSelectedDate] = useState(Date.now());
-    const [selectedFilm, setSelectedFilm] = useState(0)
+    const [selectedFilm, setSelectedFilm] = useState(null)
+    const [selectedTime, setSelectedTime] = useState(null)
 
-    const steps = ['Choose date', 'Choose film', 'Have fun'];
+    const steps = ['Choose date', 'Choose film', 'Choose time', 'Choose seats', 'Confirmation', 'Congratulations'];
 
     const getStepContent = (step) => {
         switch (step) {
             case 0:
                 return <FirstStep selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
             case 1:
-                return <SecondStep selectedFilm={selectedFilm} setSelectedFilm={setSelectedFilm} selectedDate={selectedDate}/>
+                return <SecondStep setSelectedFilm={setSelectedFilm} selectedDate={selectedDate}/>
             case 2:
-                return <Typography>Try out different ad text to see what brings in the most customers,
-                    and learn how to enhance your ads using features like ad extensions.
-                    If you run into any problems with your ads, find out how to tell if
-                    they're running and how to resolve approval issues.</Typography>
+                return <ThirdStep setSelectedTime={setSelectedTime} selectedFilm={selectedFilm}/>
+            case 3:
+                return <FourthStep selectedDate={selectedDate} selectedTime={selectedTime} />
+            case 4:
+                return 'Confirmation'
+            case 5:
+                return 'Congratulations'
             default:
                 return 'Unknown step';
         }

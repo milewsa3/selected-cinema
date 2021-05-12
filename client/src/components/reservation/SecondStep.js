@@ -7,7 +7,8 @@ import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
-import {getMoviesByDate} from "../../api";
+import {useDispatch, useSelector} from "react-redux";
+import {getMoviesByDateAction} from "../../actions/reservationMoviesActions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,45 +39,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const availableMovies = [
-    {
-        label: "San Francisco – Oakland Bay Bridge, United States",
-        imgPath:
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6OnlqShdRinhJwV1uGiRE70lD63.jpg"
-    },
-    {
-        label: "Bird",
-        imgPath:
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/zvugkRK6vpbPBv63jETof2ZIf9f.jpg"
-    },
-    {
-        label: "Bali, Indonesia",
-        imgPath:
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/dkokENeY5Ka30BFgWAqk14mbnGs.jpg"
-    },
-    {
-        label: "NeONBRAND Digital Marketing, Las Vegas, United States",
-        imgPath:
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/Q1ZYG3kDS8iVIHOYOJ9NQmV0q7.jpg"
-    },
-    {
-        label: "Goč, Serbia",
-        imgPath:
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/340AAxjvtGXChWkqhIlScZTSokq.jpg"
-    }
-];
-
-const SecondStep = ({selectedFilm, setSelectedFilm, selectedDate}) => {
+const SecondStep = ({ setSelectedFilm, selectedDate }) => {
     const classes = useStyles();
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
-    const maxSteps = availableMovies.length;
+    const dispatch = useDispatch()
+    const resMovies = useSelector(state => state.resMovies)
 
-    useEffect(async () => {
-        console.log(new Date(selectedDate))
-        const movies = await getMoviesByDate(new Date(selectedDate))
-        console.log(movies)
-    }, []);
+    useEffect(() => {
+        const date = new Date(selectedDate)
+        dispatch(getMoviesByDateAction(date))
+
+        // eslint-disable-next-line
+    }, [selectedDate]);
+
+    useEffect( () => {
+        if (resMovies && resMovies.data && resMovies.data.length !== 0) {
+            setSelectedFilm(resMovies?.data[activeStep])
+        } else {
+            setSelectedFilm(null)
+        }
+    })
 
 
     const handleNext = () => {
@@ -92,59 +75,69 @@ const SecondStep = ({selectedFilm, setSelectedFilm, selectedDate}) => {
     };
 
     return (
-        <div className={classes.root}>
-            <Paper square elevation={0} className={classes.header}>
-                <Typography>{availableMovies[activeStep].label}</Typography>
-            </Paper>
-            <SwipeableViews
-                axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-                index={activeStep}
-                onChangeIndex={handleStepChange}
-                enableMouseEvents
-            >
-                {availableMovies.map((step, index) => (
-                    <div key={step.label}>
-                        {Math.abs(activeStep - index) <= 2 ? (
-                            <img
-                                className={classes.img}
-                                src={step.imgPath}
-                                alt={step.label}
-                            />
-                        ) : null}
-                    </div>
-                ))}
-            </SwipeableViews>
-            <MobileStepper
-                steps={maxSteps}
-                position="static"
-                variant="text"
-                activeStep={activeStep}
-                nextButton={
-                    <Button
-                        size="small"
-                        onClick={handleNext}
-                        disabled={activeStep === maxSteps - 1}
+        <>
+            {resMovies.loading && <div>Loading ...</div>}
+            {resMovies.error && <div>{resMovies.error}</div>}
+            {(resMovies.data && resMovies.data.length !== 0) ? (
+                <div className={classes.root}>
+                    <Paper square elevation={0} className={classes.header}>
+                        <Typography>{resMovies.data[activeStep].title}</Typography>
+                    </Paper>
+                    <SwipeableViews
+                        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                        index={activeStep}
+                        onChangeIndex={handleStepChange}
+                        enableMouseEvents
                     >
-                        Next
-                        {theme.direction === "rtl" ? (
-                            <KeyboardArrowLeft />
-                        ) : (
-                            <KeyboardArrowRight />
-                        )}
-                    </Button>
-                }
-                backButton={
-                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                        {theme.direction === "rtl" ? (
-                            <KeyboardArrowRight />
-                        ) : (
-                            <KeyboardArrowLeft />
-                        )}
-                        Back
-                    </Button>
-                }
-            />
-        </div>
+                        {resMovies.data.map((step, index) => (
+                            <div key={step.title}>
+                                {Math.abs(activeStep - index) <= 2 ? (
+                                    <img
+                                        className={classes.img}
+                                        src={`https://image.tmdb.org/t/p/w${300}/${step.TMDB['poster_path']}`}
+                                        alt={step.title}
+                                    />
+                                ) : null}
+                            </div>
+                        ))}
+                    </SwipeableViews>
+                    <MobileStepper
+                        steps={resMovies.data.length}
+                        position="static"
+                        variant="text"
+                        activeStep={activeStep}
+                        nextButton={
+                            <Button
+                                size="small"
+                                onClick={handleNext}
+                                disabled={activeStep === resMovies.data.length - 1}
+                            >
+                                Next
+                                {theme.direction === "rtl" ? (
+                                    <KeyboardArrowLeft />
+                                ) : (
+                                    <KeyboardArrowRight />
+                                )}
+                            </Button>
+                        }
+                        backButton={
+                            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                                {theme.direction === "rtl" ? (
+                                    <KeyboardArrowRight />
+                                ) : (
+                                    <KeyboardArrowLeft />
+                                )}
+                                Back
+                            </Button>
+                        }
+                    />
+                </div>
+            ) : (
+                <>
+                    {!resMovies.loading && <div>No films available right now</div>}
+                </>
+            )}
+        </>
     );
 };
 
