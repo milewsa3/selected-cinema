@@ -39,12 +39,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const SecondStep = ({ setSelectedFilm, selectedDate }) => {
+const SecondStep = ({ selectedFilm, setSelectedFilm, selectedDate }) => {
     const classes = useStyles();
     const theme = useTheme();
-    const [activeStep, setActiveStep] = React.useState(0);
     const dispatch = useDispatch()
     const resMovies = useSelector(state => state.resMovies)
+    const [activeStep, setActiveStep] = React.useState(resMovies?.data?.indexOf(selectedFilm) !== -1 ? resMovies?.data?.indexOf(selectedFilm) : 0);
 
     useEffect(() => {
         const date = new Date(selectedDate)

@@ -20,3 +20,8 @@ export const getMoviesByDate = async (date) => {
 
     return movies
 }
+export const getScreeningsTime = async (date, film_id) => {
+    const {data: timings} = await API.get('/screenings/timed', { params: {date, movie_id: film_id} })
+
+    return timings
+}

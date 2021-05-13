@@ -33,7 +33,7 @@ const ReservationStepper = () => {
     const [activeStep, setActiveStep] = React.useState(0);
     const [selectedDate, setSelectedDate] = useState(Date.now());
     const [selectedFilm, setSelectedFilm] = useState(null)
-    const [selectedTime, setSelectedTime] = useState(null)
+    const [selectedTime, setSelectedTime] = useState('')
 
     const steps = ['Choose date', 'Choose film', 'Choose time', 'Choose seats', 'Confirmation', 'Congratulations'];
 
@@ -42,9 +42,9 @@ const ReservationStepper = () => {
             case 0:
                 return <FirstStep selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
             case 1:
-                return <SecondStep setSelectedFilm={setSelectedFilm} selectedDate={selectedDate}/>
+                return <SecondStep selectedFilm={selectedFilm} setSelectedFilm={setSelectedFilm} selectedDate={selectedDate}/>
             case 2:
-                return <ThirdStep setSelectedTime={setSelectedTime} selectedFilm={selectedFilm}/>
+                return <ThirdStep selectedDate={selectedDate} selectedTime={selectedTime} setSelectedTime={setSelectedTime} selectedFilm={selectedFilm}/>
             case 3:
                 return <FourthStep selectedDate={selectedDate} selectedTime={selectedTime} />
             case 4:
