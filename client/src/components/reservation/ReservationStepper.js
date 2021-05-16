@@ -10,6 +10,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import ThirdStep from "./ThirdStep";
 import FourthStep from "./FourthStep";
 import FifthStep from "./FifthStep";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,13 +32,14 @@ const useStyles = makeStyles(theme => ({
 
 const ReservationStepper = () => {
     const classes = useStyles()
+    const history = useHistory()
     const [activeStep, setActiveStep] = React.useState(0);
     const [selectedDate, setSelectedDate] = useState(Date.now());
     const [selectedFilm, setSelectedFilm] = useState(null)
     const [selectedTime, setSelectedTime] = useState('')
     const [selectedSeats, setSelectedSeats] = useState([])
 
-    const steps = ['Choose date', 'Choose film', 'Choose time', 'Choose seats', 'Confirmation', 'Congratulations'];
+    const steps = ['Choose date', 'Choose film', 'Choose time', 'Choose seats', 'Confirmation'];
 
     const getStepContent = (step) => {
         switch (step) {
@@ -51,8 +53,6 @@ const ReservationStepper = () => {
                 return <FourthStep selectedTime={selectedTime} selectedFilm={selectedFilm} setSelectedSeats={setSelectedSeats} />
             case 4:
                 return <FifthStep selectedTime={selectedTime} selectedFilm={selectedFilm} selectedSeats={selectedSeats}/>
-            case 5:
-                return 'Congratulations'
             default:
                 return 'Unknown step';
         }
@@ -66,9 +66,9 @@ const ReservationStepper = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleReset = () => {
-        setActiveStep(0);
-    };
+    function handleYourReservations() {
+        history.push('/dashboard')
+    }
 
     return (
         <div className={classes.root}>
@@ -93,7 +93,7 @@ const ReservationStepper = () => {
                                         onClick={handleNext}
                                         className={classes.button}
                                     >
-                                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                        {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                                     </Button>
                                 </div>
                             </div>
@@ -103,9 +103,9 @@ const ReservationStepper = () => {
             </Stepper>
             {activeStep === steps.length && (
                 <Paper square elevation={0} className={classes.resetContainer}>
-                    <Typography>All steps completed - you&apos;re finished</Typography>
-                    <Button onClick={handleReset} className={classes.button}>
-                        Reset
+                    <Typography>Reservation has been made! - you&apos;re the best!</Typography>
+                    <Button onClick={handleYourReservations} className={classes.button}>
+                        Your reservations
                     </Button>
                 </Paper>
             )}
