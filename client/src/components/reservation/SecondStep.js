@@ -44,14 +44,15 @@ const SecondStep = ({ selectedFilm, setSelectedFilm, selectedDate }) => {
     const theme = useTheme();
     const dispatch = useDispatch()
     const resMovies = useSelector(state => state.resMovies)
-    const [activeStep, setActiveStep] = React.useState(resMovies?.data?.indexOf(selectedFilm) !== -1 ? resMovies?.data?.indexOf(selectedFilm) : 0);
+    // const [activeStep, setActiveStep] = React.useState((selectedFilm && resMovies?.data?.indexOf(selectedFilm) !== -1) ? resMovies.data.indexOf(selectedFilm) : 0)
+    const [activeStep, setActiveStep] = React.useState(0)
 
     useEffect(() => {
         const date = new Date(selectedDate)
         dispatch(getMoviesByDateAction(date))
 
         // eslint-disable-next-line
-    }, [selectedDate]);
+    }, [selectedDate, dispatch]);
 
     useEffect( () => {
         if (resMovies && resMovies.data && resMovies.data.length !== 0) {
@@ -78,7 +79,7 @@ const SecondStep = ({ selectedFilm, setSelectedFilm, selectedDate }) => {
         <>
             {resMovies.loading && <div>Loading ...</div>}
             {resMovies.error && <div>{resMovies.error}</div>}
-            {(resMovies.data && resMovies.data.length !== 0) ? (
+            {(resMovies.data !== null && resMovies.data.length !== 0) ? (
                 <div className={classes.root}>
                     <Paper square elevation={0} className={classes.header}>
                         <Typography>{resMovies.data[activeStep].title}</Typography>

@@ -8,9 +8,6 @@ const movieSchema = new Schema({
         required: true,
         unique: true
     },
-    screenings_ids: [{
-        type: ObjectId
-    }],
     TMDB: String,
 }, { timestamps: true });
 
