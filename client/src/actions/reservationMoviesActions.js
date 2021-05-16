@@ -11,11 +11,8 @@ export const getMoviesByDateAction = (date) => async (dispatch) => {
             return movie
         })
 
-        console.log('gites')
         dispatch({type: RES_MOVIES_SUCCESS, payload: parsedMovies})
     } catch (error) {
-        console.log('bad error')
-        console.log(error)
         dispatch({type: RES_MOVIES_FAILURE, error: error})
     }
 }

@@ -2,13 +2,30 @@ const Screening = require("../models/Screening");
 const ObjectId = require('mongoose').Schema.Types.ObjectId;
 
 const screening_get = (req, res) => {
-    Screening.find()
-        .then(result => {
-            res.json(result);
-        })
-        .catch(err => {
-            res.status(400).json('Error: ' + err);
-        });
+    const {date, movie_id} = req.query
+
+    if (date && movie_id) {
+
+        const params = {
+            "date": new Date(date), "movie_id": movie_id
+        }
+
+        Screening.find(params)
+            .then(result => {
+                res.json(result);
+            })
+            .catch(err => {
+                res.status(400).json('Error: ' + err);
+            });
+    } else {
+        Screening.find()
+            .then(result => {
+                res.json(result);
+            })
+            .catch(err => {
+                res.status(400).json('Error: ' + err);
+            });
+    }
 }
 
 const screening_get_id = (req, res) => {
@@ -20,6 +37,24 @@ const screening_get_id = (req, res) => {
         })
         .catch(err => {
             res.status(400).json('Error: ' + err);
+        })
+}
+
+const screening_get_date_movie_id = (req, res) => {
+    const { date, movie_id } = req.query.id
+    console.log(date, movie_id)
+
+    const filter = {
+        "movie_id": movie_id,
+        "date": date
+    }
+
+    Screening.find(filter)
+        .then(result => {
+            res.json(result)
+        })
+        .catch(error => {
+            res.status(400).json({error})
         })
 }
 
@@ -106,4 +141,5 @@ module.exports = {
     screening_delete,
     screening_dated_get,
     screening_timed_get,
+    screening_get_date_movie_id
 }

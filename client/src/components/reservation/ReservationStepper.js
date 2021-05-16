@@ -34,6 +34,7 @@ const ReservationStepper = () => {
     const [selectedDate, setSelectedDate] = useState(Date.now());
     const [selectedFilm, setSelectedFilm] = useState(null)
     const [selectedTime, setSelectedTime] = useState('')
+    const [selectedSeats, setSelectedSeats] = useState([])
 
     const steps = ['Choose date', 'Choose film', 'Choose time', 'Choose seats', 'Confirmation', 'Congratulations'];
 
@@ -46,7 +47,7 @@ const ReservationStepper = () => {
             case 2:
                 return <ThirdStep selectedDate={selectedDate} selectedTime={selectedTime} setSelectedTime={setSelectedTime} selectedFilm={selectedFilm}/>
             case 3:
-                return <FourthStep selectedDate={selectedDate} selectedTime={selectedTime} />
+                return <FourthStep selectedTime={selectedTime} selectedFilm={selectedFilm} setSelectedSeats={setSelectedSeats} />
             case 4:
                 return 'Confirmation'
             case 5:

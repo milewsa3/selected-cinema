@@ -21,14 +21,32 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Seats = () => {
+const Seats = ({setSelectedSeats, available_seats}) => {
     const classes = useStyles()
     const numberOfRows = 5
+    const takenSeats = []
+
+    const onSeatClickHandler = (number) => {
+        const index = takenSeats.indexOf(number)
+
+        if (index === -1)
+            takenSeats.push(number)
+        else
+            takenSeats.splice(index, 1)
+
+        setSelectedSeats(takenSeats)
+    }
 
     const seatRows = []
     for (let i = 0; i < numberOfRows; i++) {
         for (let j = 1; j<= 10; j++) {
-            seatRows.push(<Seat number={j + 10 * i} variant="empty" onClick={(number) => console.log(number)}/>)
+            const number = j + 10 * i
+            seatRows.push(<Seat
+                key={number}
+                number={number}
+                variant={available_seats.includes(number) ? "empty" : "taken"}
+                onClick={onSeatClickHandler}
+            />)
         }
     }
 

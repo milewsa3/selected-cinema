@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import {Box, Grow} from "@material-ui/core";
 import Seats from "./Seats";
+import {useDispatch, useSelector} from "react-redux";
+import {getScreeningAction} from "../../actions/resMoviesSeatActions";
 
 const useStyles = makeStyles((theme) => ({
     box: {
@@ -25,25 +27,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const FourthStep = () => {
+const FourthStep = ({selectedTime, selectedFilm, setSelectedSeats}) => {
     const classes = useStyles()
+    const dispatch = useDispatch()
+    const resMoviesSeat = useSelector(state => state.resMoviesSeat)
 
-    const seatRow = []
-    const seats = []
-    for (let i = 1;i <= 10; i++) {
-        seatRow.push(<div key={i} className={classes.seat}>{i}</div>)
-    }
-
-    for (let i = 1; i<= 4; i++) {
-        seats.push(<div className={classes.seatRow}>{seatRow}</div>)
-    }
+    useEffect(() => {
+        dispatch(getScreeningAction(selectedTime, selectedFilm._id))
+    }, [])
 
     return (
-        <Grow in>
-            <Box display='flex' justifyContent="center" width="100%" className={classes.box}>
-                <Seats />
-            </Box>
-        </Grow>
+        <>
+            {resMoviesSeat.loading && <div>Loading...</div>}
+            {resMoviesSeat.data && (
+                <Grow in>
+                    <Box display='flex' justifyContent="center" width="100%" className={classes.box}>
+                        <Seats setSelectedSeats={setSelectedSeats} available_seats={resMoviesSeat.data[0].available_seats} />
+                    </Box>
+                </Grow>
+            )}
+        </>
     );
 };
 

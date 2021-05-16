@@ -1,4 +1,4 @@
-import {RES_MOVIES_TIME_FAILURE, RES_MOVIES_TIME_REQUEST, RES_MOVIES_TIME_SUCCESS} from "../constants/actionTypes";
+import {RES_MOVIES_SEAT_FAILURE, RES_MOVIES_SEAT_REQUEST, RES_MOVIES_SEAT_SUCCESS,} from "../constants/actionTypes";
 
 const initState = {
     data: null,
@@ -6,22 +6,22 @@ const initState = {
     error: null
 }
 
-const resMoviesTimeReducer = (state = initState, action) => {
+const resMoviesSeatReducer = (state = initState, action) => {
     switch (action.type) {
-        case RES_MOVIES_TIME_REQUEST:
+        case RES_MOVIES_SEAT_REQUEST:
             return {
                 ...state,
                 loading: true,
                 error: null,
                 data: null
             }
-        case RES_MOVIES_TIME_SUCCESS:
+        case RES_MOVIES_SEAT_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: action.payload
             }
-        case RES_MOVIES_TIME_FAILURE:
+        case RES_MOVIES_SEAT_FAILURE:
             return {
                 ...state,
                 loading: false,
@@ -33,4 +33,4 @@ const resMoviesTimeReducer = (state = initState, action) => {
     }
 }
 
-export default resMoviesTimeReducer
+export default resMoviesSeatReducer
