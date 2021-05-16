@@ -3,7 +3,7 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
-import {Button, Paper, Typography} from "@material-ui/core";
+import {Box, Button, Paper, Snackbar, Typography} from "@material-ui/core";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import {makeStyles} from "@material-ui/core/styles";
@@ -11,6 +11,8 @@ import ThirdStep from "./ThirdStep";
 import FourthStep from "./FourthStep";
 import FifthStep from "./FifthStep";
 import {useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,6 +40,7 @@ const ReservationStepper = () => {
     const [selectedFilm, setSelectedFilm] = useState(null)
     const [selectedTime, setSelectedTime] = useState('')
     const [selectedSeats, setSelectedSeats] = useState([])
+    const screening = useSelector(state => state.resMoviesSeat)
 
     const steps = ['Choose date', 'Choose film', 'Choose time', 'Choose seats', 'Confirmation'];
 
@@ -58,9 +61,63 @@ const ReservationStepper = () => {
         }
     }
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    const handleNext = (e) => {
+        if (e.target.innerText.toLowerCase() === 'submit')
+            handleSubmit()
+        else
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
+
+    const handleSubmit = () => {
+        if (!selectedFilm || !selectedTime || selectedSeats.length === 0) {
+            setSnackBarInfo('Fill up all steps')
+            openSnackbar()
+        } else {
+            const user_id = JSON.parse(localStorage.getItem('profile')).result._id
+            const screening_id = screening.data[0]._id
+
+            fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    screening_id,
+                    seats: selectedSeats,
+                    user_id
+                })
+            }).then(res => {
+                if (!res.ok) {
+                    setSnackBarInfo('Server error')
+                    openSnackbar()
+                }
+            }).catch(err => {
+                setSnackBarInfo('Server error')
+                openSnackbar()
+            })
+
+            fetch(`${process.env.REACT_APP_BACKEND_URI}/screenings/${screening_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    available_seats: screening.data[0].available_seats.filter(el => !selectedSeats.includes(el))
+                })
+            }).then(res => {
+                if (!res.ok) {
+                    setSnackBarInfo('Server error')
+                    openSnackbar()
+                }
+                else {
+                    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+                }
+            }).catch(err => {
+                setSnackBarInfo('Server error')
+                openSnackbar()
+            })
+        }
+    }
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -68,6 +125,22 @@ const ReservationStepper = () => {
 
     function handleYourReservations() {
         history.push('/dashboard')
+    }
+
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('error');
+    const [snackBarInfo, setSnackBarInfo] = useState('Something went wrong');
+
+    const openSnackbar = () => {
+        setOpen(true)
+    }
+
+    const closeSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return
+        }
+
+        setOpen(false)
     }
 
     return (
@@ -103,12 +176,17 @@ const ReservationStepper = () => {
             </Stepper>
             {activeStep === steps.length && (
                 <Paper square elevation={0} className={classes.resetContainer}>
-                    <Typography>Reservation has been made! - you&apos;re the best!</Typography>
-                    <Button onClick={handleYourReservations} className={classes.button}>
+                    <Typography variant="h6" gutterBottom={true}><Box fontWeight='bold' display='inline'>Reservation has been made!</Box> - you&apos;re the best!</Typography>
+                    <Button onClick={handleYourReservations} className={classes.button} color="primary" variant="outlined">
                         Your reservations
                     </Button>
                 </Paper>
             )}
+            <Snackbar open={open} autoHideDuration={5000} onClose={closeSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
+                <Alert onClose={closeSnackbar} severity={severity}>
+                    {snackBarInfo}
+                </Alert>
+            </Snackbar>
         </div>
     );
 };
