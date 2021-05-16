@@ -9,6 +9,7 @@ import SecondStep from "./SecondStep";
 import {makeStyles} from "@material-ui/core/styles";
 import ThirdStep from "./ThirdStep";
 import FourthStep from "./FourthStep";
+import FifthStep from "./FifthStep";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -49,7 +50,7 @@ const ReservationStepper = () => {
             case 3:
                 return <FourthStep selectedTime={selectedTime} selectedFilm={selectedFilm} setSelectedSeats={setSelectedSeats} />
             case 4:
-                return 'Confirmation'
+                return <FifthStep selectedTime={selectedTime} selectedFilm={selectedFilm} selectedSeats={selectedSeats}/>
             case 5:
                 return 'Congratulations'
             default:

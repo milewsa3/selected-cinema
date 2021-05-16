@@ -33,8 +33,18 @@ const FourthStep = ({selectedTime, selectedFilm, setSelectedSeats}) => {
     const resMoviesSeat = useSelector(state => state.resMoviesSeat)
 
     useEffect(() => {
-        dispatch(getScreeningAction(selectedTime, selectedFilm._id))
+        if (selectedTime && selectedFilm) {
+            dispatch(getScreeningAction(selectedTime, selectedFilm._id))
+        }
     }, [])
+
+    if (selectedTime === "" || selectedFilm === null) {
+        return (
+            <div>
+                Previous steps have not been set up correctly
+            </div>
+        )
+    }
 
     return (
         <>
