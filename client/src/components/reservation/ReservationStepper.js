@@ -73,7 +73,8 @@ const ReservationStepper = () => {
             setSnackBarInfo('Fill up all steps')
             openSnackbar()
         } else {
-            const user_id = JSON.parse(localStorage.getItem('profile')).result._id
+            const user = JSON.parse(localStorage.getItem('profile')).result
+            const user_id = user._id ? user._id : user.googleId
             const screening_id = screening.data[0]._id
 
             fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations`, {
@@ -84,7 +85,7 @@ const ReservationStepper = () => {
                 body: JSON.stringify({
                     screening_id,
                     seats: selectedSeats,
-                    user_id
+                    user_id: user_id
                 })
             }).then(res => {
                 if (!res.ok) {
