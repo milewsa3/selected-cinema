@@ -21,7 +21,7 @@ const ThirdStep = ( { selectedTime, setSelectedTime, selectedFilm, selectedDate 
 
     useEffect(() => {
         if (selectedFilm !== null)
-            dispatch(getScreeningsTimeAction(selectedDate, selectedFilm?._id))
+            dispatch(getScreeningsTimeAction(new Date(selectedDate), selectedFilm?._id))
 
         // setSelectedTime('')
     }, []);

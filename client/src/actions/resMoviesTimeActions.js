@@ -9,6 +9,7 @@ export const getScreeningsTimeAction = (date, film_id) => async (dispatch) => {
 
         dispatch({type: RES_MOVIES_TIME_SUCCESS, payload: times})
     } catch (error) {
-        dispatch({type: RES_MOVIES_TIME_FAILURE, error: error})
+        console.log(error.response.data)
+        dispatch({type: RES_MOVIES_TIME_FAILURE, error})
     }
 }

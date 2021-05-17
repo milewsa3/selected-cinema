@@ -52,7 +52,7 @@ const SecondStep = ({ selectedFilm, setSelectedFilm, selectedDate }) => {
         dispatch(getMoviesByDateAction(date))
 
         // eslint-disable-next-line
-    }, [selectedDate, dispatch]);
+    }, []);
 
     useEffect( () => {
         if (resMovies && resMovies.data && resMovies.data.length !== 0) {
