@@ -34,7 +34,7 @@ const FourthStep = ({selectedTime, selectedFilm, setSelectedSeats}) => {
 
     useEffect(() => {
         if (selectedTime && selectedFilm) {
-            dispatch(getScreeningAction(selectedTime, selectedFilm._id))
+            dispatch(getScreeningAction(new Date(selectedTime), selectedFilm._id))
         }
     }, [])
 
