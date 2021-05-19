@@ -9,4 +9,6 @@ router.post('/', reservationController.reservation_post);
 router.put('/:id', reservationController.reservation_put);
 router.delete('/:id', reservationController.reservation_delete);
 
+router.get('/user/:user_id', reservationController.reservation_user_get)
+
 module.exports = router;

@@ -34,7 +34,6 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: '#404040',
         opacity: '0.7'
     }
-
 }))
 
 function removeSpecialChars(string) {

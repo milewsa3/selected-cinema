@@ -13,6 +13,7 @@ import FifthStep from "./FifthStep";
 import {useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {Alert} from "@material-ui/lab";
+import {getUser, getUserId} from "../../utils/userUtils";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -73,8 +74,8 @@ const ReservationStepper = () => {
             setSnackBarInfo('Fill up all steps')
             openSnackbar()
         } else {
-            const user = JSON.parse(localStorage.getItem('profile')).result
-            const user_id = user._id ? user._id : user.googleId
+            const user = getUser()
+            const user_id = getUserId()
             const screening_id = screening.data[0]._id
 
             fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations`, {
@@ -124,7 +125,7 @@ const ReservationStepper = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    function handleYourReservations() {
+    function handleEndBtnOnClick() {
         history.push('/dashboard')
     }
 
@@ -178,8 +179,8 @@ const ReservationStepper = () => {
             {activeStep === steps.length && (
                 <Paper square elevation={0} className={classes.resetContainer}>
                     <Typography variant="h6" gutterBottom={true}><Box fontWeight='bold' display='inline'>Reservation has been made!</Box> - you&apos;re the best!</Typography>
-                    <Button onClick={handleYourReservations} className={classes.button} color="primary" variant="outlined">
-                        Your reservations
+                    <Button onClick={handleEndBtnOnClick} className={classes.button} color="primary" variant="outlined">
+                        Dashboard
                     </Button>
                 </Paper>
             )}

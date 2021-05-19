@@ -8,6 +8,7 @@ import Auth from './pages/Auth'
 import Films from './pages/Films'
 import Dashboard from "./pages/Dashboard";
 import MakeReservation from "./pages/MakeReservation";
+import YourReservations from "./pages/YourReservations";
 
 const theme = createMuiTheme({
   palette: {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/about" component={About} />
           <Route path="/auth" component={Auth} />
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/yourReservations" component={YourReservations} />
           <Route path="/reservation" component={MakeReservation} />
         </Switch>
       </Router>
