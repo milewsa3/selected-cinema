@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
         backgroundImage: 'url("images/dashboardPage/white_bg_2.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'top',
+        border: '3px solid white',
 
         animation: 'white_bg_animation 50s infinite',
     },
