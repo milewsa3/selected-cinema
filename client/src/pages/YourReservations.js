@@ -24,11 +24,8 @@ const useStyles = makeStyles(theme => ({
         animation: 'white_bg_animation 50s infinite',
     },
     gridItem: {
-        transition: 'all 0.2s',
-        '&:hover': {
-            transform: 'scale(0.95)',
-            cursor: 'pointer'
-        }
+        display: 'flex',
+        justifyContent: 'center',
     },
     skeleton: {
         maxWidth: 250,
@@ -46,7 +43,7 @@ const YourReservations = () => {
         <Grow in>
             <Container maxWidth={"lg"} className={classes.root}>
                 {isPending ? (
-                    <Grid container spacing={3} alignContent="center" justify="center">
+                    <Grid container spacing={3}>
                         {[0,1,2,3,4,5,6,7].map((reservation) => (
                             <Grid item sx={12} md={4} lg={3} xl={3} key={reservation._id}>
                                 <Skeleton variant="rect" width={250} height={90} animation="wave" className={classes.skeleton}/>
