@@ -1,5 +1,6 @@
 import React from 'react';
 import {Box, Container, Grow, makeStyles, Typography} from "@material-ui/core";
+import boldFont from "../../utils/boldFont";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -10,10 +11,6 @@ const useStyles = makeStyles(theme => ({
         color: 'white',
     }
 }))
-
-const boldFont = (text) => {
-    return (<Box fontWeight='bold' display='inline'>{`${text}`}</Box>)
-}
 
 const info = [
     {

@@ -70,8 +70,9 @@ const reservation_user_get = async (req, res) => {
             const screeningQueryResult = await Screening.find({_id: reservation.screening_id})
             const screening = screeningQueryResult[0]
 
-            const movieQueryResult = await Movie.find({_id: screening.movie_id})
+            const movieQueryResult = await Movie.find({_id: screening.movie_id}).lean()
             const movie = movieQueryResult[0]
+            movie.TMDB = JSON.parse(movie.TMDB)
 
             result.push({
                 _id: reservation._id,

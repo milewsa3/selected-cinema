@@ -19,15 +19,13 @@ const ReservationCard = ({reservation}) => {
 
     const emails = ['username@gmail.com', 'user02@gmail.com'];
     const [open, setOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState(emails[1]);
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const handleClose = (value) => {
+    const handleClose = () => {
         setOpen(false);
-        setSelectedValue(value);
     };
 
     return (

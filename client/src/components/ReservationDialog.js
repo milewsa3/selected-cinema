@@ -14,6 +14,7 @@ import { blue } from '@material-ui/core/colors';
 import Typography from "@material-ui/core/Typography";
 import {Box, DialogActions, DialogContent} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import boldFont from "../utils/boldFont";
 
 
 const useStyles = makeStyles({
@@ -25,11 +26,51 @@ const useStyles = makeStyles({
 
 const ReservationDialog = (props) => {
     const classes = useStyles()
-    const { onClose, selectedValue, open } = props
+    const { onClose, open, reservation } = props
 
     const handleClose = () => {
-        onClose(selectedValue);
+        onClose();
     }
+
+    const handleCancellation = async () => {
+
+        try {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations/${reservation._id}`, {
+                method: 'DELETE',
+            })
+
+            if (!res.ok) {
+                throw Error('Something went wrong')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+
+        onClose()
+    }
+
+    const content = [
+        {
+            name: 'Film title',
+            value: reservation.movie.title
+        },
+        {
+            name: 'Film description',
+            value: reservation.movie.TMDB.overview
+        },
+        {
+            name: 'Release date',
+            value: reservation.movie.TMDB.release_date
+        },
+        {
+            name: 'Date of screening',
+            value: new Date(reservation.date).toLocaleString()
+        },
+        {
+            name: 'Selected seats',
+            value: reservation.seats.join(', ')
+        }
+    ]
 
     return (
         <Dialog fullWidth={true} maxWidth="md" onClose={handleClose} aria-labelledby="reservation-dialog-title" open={open}>
@@ -39,22 +80,14 @@ const ReservationDialog = (props) => {
                 </Typography>
             </DialogTitle>
             <DialogContent dividers>
-                <Typography gutterBottom>
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                    in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                </Typography>
-                <Typography gutterBottom>
-                    Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-                    lacus vel augue laoreet rutrum faucibus dolor auctor.
-                </Typography>
-                <Typography gutterBottom>
-                    Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-                    scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-                    auctor fringilla.
-                </Typography>
+                {content.map(el => (
+                    <Typography gutterBottom key={el.name}>
+                        {boldFont(`${el.name}: `)}{el.value}
+                    </Typography>
+                ))}
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={handleClose} color="textPrimary">
+                <Button autoFocus onClick={handleCancellation} color="textPrimary">
                     <Box color='red' display='inline'>{'Cancel reservation'}</Box>
                 </Button>
                 <Button onClick={handleClose} color="textPrimary">
