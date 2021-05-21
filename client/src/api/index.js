@@ -30,3 +30,8 @@ export const getScreening = async (date, movie_id) => {
     const { data } = await API.get('/screenings', { params: {date, movie_id} })
     return data
 }
+
+export const fetchReservations = (user_id) => API.get(`/reservations/user/${user_id}`)
+export const createReservation = (reservation) => API.post(`/reservations`, reservation)
+export const getDetailedReservation = (id) => API.get(`/reservations/detailed/${id}`)
+export const deleteReservation = (id) => API.delete(`/reservations/${id}`)

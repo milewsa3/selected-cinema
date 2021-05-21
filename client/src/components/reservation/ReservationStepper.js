@@ -11,9 +11,10 @@ import ThirdStep from "./ThirdStep";
 import FourthStep from "./FourthStep";
 import FifthStep from "./FifthStep";
 import {useHistory} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Alert} from "@material-ui/lab";
 import {getUser, getUserId} from "../../utils/userUtils";
+import {createReservation} from "../../actions/reservationActions";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 const ReservationStepper = () => {
     const classes = useStyles()
     const history = useHistory()
+    const dispatch = useDispatch()
     const [activeStep, setActiveStep] = React.useState(0);
     const [selectedDate, setSelectedDate] = useState(Date.now());
     const [selectedFilm, setSelectedFilm] = useState(null)
@@ -78,25 +80,27 @@ const ReservationStepper = () => {
             const user_id = getUserId()
             const screening_id = screening.data[0]._id
 
-            fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    screening_id,
-                    seats: selectedSeats,
-                    user_id: user_id
-                })
-            }).then(res => {
-                if (!res.ok) {
-                    setSnackBarInfo('Server error')
-                    openSnackbar()
-                }
-            }).catch(err => {
-                setSnackBarInfo('Server error')
-                openSnackbar()
-            })
+            // fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         screening_id,
+            //         seats: selectedSeats,
+            //         user_id: user_id
+            //     })
+            // }).then(res => {
+            //     if (!res.ok) {
+            //         setSnackBarInfo('Server error')
+            //         openSnackbar()
+            //     }
+            // }).catch(err => {
+            //     setSnackBarInfo('Server error')
+            //     openSnackbar()
+            // })
+
+            dispatch(createReservation({screening_id, seats: selectedSeats, user_id}))
 
             fetch(`${process.env.REACT_APP_BACKEND_URI}/screenings/${screening_id}`, {
                 method: 'PUT',

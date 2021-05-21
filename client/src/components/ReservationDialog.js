@@ -15,18 +15,14 @@ import Typography from "@material-ui/core/Typography";
 import {Box, DialogActions, DialogContent} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import boldFont from "../utils/boldFont";
+import {useDispatch} from "react-redux";
+import {deleteReservation} from "../actions/reservationActions";
 
 
-const useStyles = makeStyles({
-    avatar: {
-        backgroundColor: blue[100],
-        color: blue[600],
-    },
-})
 
 const ReservationDialog = (props) => {
-    const classes = useStyles()
     const { onClose, open, reservation } = props
+    const dispatch = useDispatch()
 
     const handleClose = () => {
         onClose();
@@ -35,13 +31,14 @@ const ReservationDialog = (props) => {
     const handleCancellation = async () => {
 
         try {
-            const res = await fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations/${reservation._id}`, {
-                method: 'DELETE',
-            })
-
-            if (!res.ok) {
-                throw Error('Something went wrong')
-            }
+            // const res = await fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations/${reservation._id}`, {
+            //     method: 'DELETE',
+            // })
+            //
+            // if (!res.ok) {
+            //     throw Error('Something went wrong')
+            // }
+            dispatch(deleteReservation(reservation._id))
         } catch (err) {
             console.log(err)
         }

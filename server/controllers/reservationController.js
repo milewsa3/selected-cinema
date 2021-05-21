@@ -12,6 +12,35 @@ const reservation_get = (req, res) => {
         });
 }
 
+const parseReservation = async (reservation) => {
+    const screeningQueryResult = await Screening.find({_id: reservation.screening_id})
+    const screening = screeningQueryResult[0]
+
+    const movieQueryResult = await Movie.find({_id: screening.movie_id}).lean()
+    const movie = movieQueryResult[0]
+    movie.TMDB = JSON.parse(movie.TMDB)
+
+    return {
+        _id: reservation._id,
+        date: screening.date,
+        seats: reservation.seats,
+        movie: movie
+    }
+}
+
+const reservation_get_detailed = async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const reservation =  await Reservation.findById(id)
+        const parsedReservation = await parseReservation(reservation)
+
+        res.json(parsedReservation)
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 const reservation_get_id = (req, res) => {
     const id = req.params.id;
 
@@ -67,19 +96,8 @@ const reservation_user_get = async (req, res) => {
         const reservations =  await Reservation.find({user_id})
 
         for (const reservation of reservations ) {
-            const screeningQueryResult = await Screening.find({_id: reservation.screening_id})
-            const screening = screeningQueryResult[0]
-
-            const movieQueryResult = await Movie.find({_id: screening.movie_id}).lean()
-            const movie = movieQueryResult[0]
-            movie.TMDB = JSON.parse(movie.TMDB)
-
-            result.push({
-                _id: reservation._id,
-                date: screening.date,
-                seats: reservation.seats,
-                movie: movie
-            })
+            const parsedReservation = await parseReservation(reservation)
+            result.push(parsedReservation)
         }
 
         res.json(result)
@@ -94,5 +112,6 @@ module.exports = {
     reservation_post,
     reservation_put,
     reservation_delete,
-    reservation_user_get
+    reservation_user_get,
+    reservation_get_detailed
 }

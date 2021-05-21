@@ -16,17 +16,15 @@ const useStyles = makeStyles(theme => ({
 
 const ReservationCard = ({reservation}) => {
     const classes = useStyles()
-
-    const emails = ['username@gmail.com', 'user02@gmail.com'];
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false)
 
     const handleClickOpen = () => {
-        setOpen(true);
-    };
+        setOpen(true)
+    }
 
     const handleClose = () => {
-        setOpen(false);
-    };
+        setOpen(false)
+    }
 
     return (
         <Card className={classes.root} raised={true}>
