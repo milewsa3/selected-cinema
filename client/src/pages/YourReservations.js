@@ -3,9 +3,8 @@ import {Box, CircularProgress, Container, Grid, Grow, Typography} from "@materia
 import {makeStyles} from "@material-ui/core/styles";
 import useFetch from "../utils/useFetch";
 import {getUserId} from "../utils/userUtils";
-import ReservationCard from "../components/ReservationCard";
-import FilmCard from "../components/FilmCard";
 import Skeleton from "@material-ui/lab/Skeleton";
+import UserReservations from "../components/UserReservations";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,10 +21,6 @@ const useStyles = makeStyles(theme => ({
         border: '3px solid white',
 
         animation: 'white_bg_animation 50s infinite',
-    },
-    gridItem: {
-        display: 'flex',
-        justifyContent: 'center',
     },
     skeleton: {
         maxWidth: 250,
@@ -52,24 +47,7 @@ const YourReservations = () => {
                     </Grid>
                 ) : null}
                 {error && <div>{error}</div>}
-                {reservations ? (
-                    <>
-                        {reservations.length === 0 ? (
-                            <>
-                                <Typography variant="h3" align="center">No reservation has been made</Typography>
-                                <Typography variant="h5" align="center" color="textSecondary">Go and make a new one!</Typography>
-                            </>
-                        ): (
-                            <Grid container spacing={3} alignContent="center" justify="center">
-                                {reservations.map((reservation) => (
-                                    <Grid item sx={12} md={4} lg={3} xl={3} key={reservation._id} className={classes.gridItem}>
-                                        <ReservationCard reservation={reservation} />
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        )}
-                    </>
-                ) : null}
+                {reservations ? <UserReservations reservations={reservations} /> : null}
             </Container>
         </Grow>
     );
