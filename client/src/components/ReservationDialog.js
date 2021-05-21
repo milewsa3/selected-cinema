@@ -1,23 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
-import AddIcon from '@material-ui/icons/Add';
-import { blue } from '@material-ui/core/colors';
 import Typography from "@material-ui/core/Typography";
 import {Box, DialogActions, DialogContent} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import boldFont from "../utils/boldFont";
 import {useDispatch} from "react-redux";
 import {deleteReservation} from "../actions/reservationActions";
-
 
 
 const ReservationDialog = (props) => {
@@ -29,20 +19,7 @@ const ReservationDialog = (props) => {
     }
 
     const handleCancellation = async () => {
-
-        try {
-            // const res = await fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations/${reservation._id}`, {
-            //     method: 'DELETE',
-            // })
-            //
-            // if (!res.ok) {
-            //     throw Error('Something went wrong')
-            // }
-            dispatch(deleteReservation(reservation._id))
-        } catch (err) {
-            console.log(err)
-        }
-
+        dispatch(deleteReservation(reservation._id))
         onClose()
     }
 

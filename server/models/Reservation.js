@@ -7,10 +7,10 @@ const reservationSchema = new Schema({
         type: String,
         required: true,
     },
-    screening_id: [{
+    screening_id: {
         type: ObjectId,
         required: true
-    }],
+    },
     seats: [{
         type: Number
     }]

@@ -106,6 +106,40 @@ const reservation_user_get = async (req, res) => {
     }
 }
 
+const reservation_post_seats_book = async (req, res) => {
+    const { id: reservation_id } = req.body
+
+    try {
+        const reservation = await Reservation.findById(reservation_id)
+        const screening = await Screening.findById(reservation.screening_id)
+        const newScreening = await Screening.findByIdAndUpdate(screening._id,
+            {available_seats: screening.available_seats.filter((seat) => !reservation.seats.includes(seat))}
+        )
+
+        res.json(newScreening)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json(error)
+    }
+}
+
+const reservation_post_seats_freeUp = async (req, res) => {
+    const { id: reservation_id } = req.body
+
+    try {
+        const reservation = await Reservation.findById(reservation_id)
+        const screening = await Screening.findById(reservation.screening_id)
+        const newScreening = await Screening.findByIdAndUpdate(screening._id,
+            {available_seats: screening.available_seats.concat(reservation.seats)}
+        )
+
+        res.json(newScreening)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json(error)
+    }
+}
+
 module.exports = {
     reservation_get,
     reservation_get_id,
@@ -113,5 +147,7 @@ module.exports = {
     reservation_put,
     reservation_delete,
     reservation_user_get,
-    reservation_get_detailed
+    reservation_get_detailed,
+    reservation_post_seats_book,
+    reservation_post_seats_freeUp
 }

@@ -35,3 +35,6 @@ export const fetchReservations = (user_id) => API.get(`/reservations/user/${user
 export const createReservation = (reservation) => API.post(`/reservations`, reservation)
 export const getDetailedReservation = (id) => API.get(`/reservations/detailed/${id}`)
 export const deleteReservation = (id) => API.delete(`/reservations/${id}`)
+
+export const bookSeats = (reservation_id) => API.post(`/reservations/seats/book`, {id: reservation_id})
+export const freeUpSeats = (reservation_id) => API.post(`/reservations/seats/freeUp`, {id: reservation_id})

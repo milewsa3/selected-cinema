@@ -1,7 +1,6 @@
 import React from 'react';
-import {Box, Card, CardActionArea, CardActions, Divider, IconButton, Typography} from "@material-ui/core";
+import {Box, Card, CardActionArea, Divider, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import DeleteIcon from '@material-ui/icons/Delete';
 import ReservationDialog from "./ReservationDialog";
 
 const useStyles = makeStyles(theme => ({

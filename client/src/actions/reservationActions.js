@@ -2,7 +2,10 @@ import * as api from '../api/index'
 import {
     CREATE_FAILURE,
     CREATE_REQUEST,
-    CREATE_SUCCESS, DELETE_FAILURE, DELETE_REQUEST, DELETE_SUCCESS,
+    CREATE_SUCCESS,
+    DELETE_FAILURE,
+    DELETE_REQUEST,
+    DELETE_SUCCESS,
     FETCH_ALL_FAILURE,
     FETCH_ALL_REQUEST,
     FETCH_ALL_SUCCESS
@@ -27,6 +30,7 @@ export const createReservation = (reservation) => async (dispatch) => {
 
         const { data: created_reservation } = await api.createReservation(reservation);
         const { data: detailed_reservation } = await api.getDetailedReservation(created_reservation._id)
+        await api.bookSeats(created_reservation._id)
 
         dispatch({ type: CREATE_SUCCESS, payload: detailed_reservation });
     } catch (error) {
@@ -39,6 +43,7 @@ export const deleteReservation = (id) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_REQUEST })
 
+        await api.freeUpSeats(id)
         await api.deleteReservation(id)
 
         dispatch({ type: DELETE_SUCCESS, payload: id })

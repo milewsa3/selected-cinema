@@ -13,7 +13,7 @@ import FifthStep from "./FifthStep";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {Alert} from "@material-ui/lab";
-import {getUser, getUserId} from "../../utils/userUtils";
+import {getUserId} from "../../utils/userUtils";
 import {createReservation} from "../../actions/reservationActions";
 
 const useStyles = makeStyles(theme => ({
@@ -76,52 +76,11 @@ const ReservationStepper = () => {
             setSnackBarInfo('Fill up all steps')
             openSnackbar()
         } else {
-            const user = getUser()
             const user_id = getUserId()
             const screening_id = screening.data[0]._id
 
-            // fetch(`${process.env.REACT_APP_BACKEND_URI}/reservations`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         screening_id,
-            //         seats: selectedSeats,
-            //         user_id: user_id
-            //     })
-            // }).then(res => {
-            //     if (!res.ok) {
-            //         setSnackBarInfo('Server error')
-            //         openSnackbar()
-            //     }
-            // }).catch(err => {
-            //     setSnackBarInfo('Server error')
-            //     openSnackbar()
-            // })
-
             dispatch(createReservation({screening_id, seats: selectedSeats, user_id}))
-
-            fetch(`${process.env.REACT_APP_BACKEND_URI}/screenings/${screening_id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    available_seats: screening.data[0].available_seats.filter(el => !selectedSeats.includes(el))
-                })
-            }).then(res => {
-                if (!res.ok) {
-                    setSnackBarInfo('Server error')
-                    openSnackbar()
-                }
-                else {
-                    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-                }
-            }).catch(err => {
-                setSnackBarInfo('Server error')
-                openSnackbar()
-            })
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
     }
 

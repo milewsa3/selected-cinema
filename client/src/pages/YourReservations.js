@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
-import {Box, CircularProgress, Container, Grid, Grow, Typography} from "@material-ui/core";
+import {Container, Grid, Grow} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import useFetch from "../utils/useFetch";
 import {getUserId} from "../utils/userUtils";
 import Skeleton from "@material-ui/lab/Skeleton";
 import UserReservations from "../components/UserReservations";
