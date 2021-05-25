@@ -16,7 +16,7 @@ const initState = {
     error: null
 }
 
-export default (state = initState, action) => {
+const reservations = (state = initState, action) => {
     switch (action.type) {
         case FETCH_ALL_REQUEST:
             return {
@@ -78,3 +78,5 @@ export default (state = initState, action) => {
             return state
     }
 }
+
+export default reservations

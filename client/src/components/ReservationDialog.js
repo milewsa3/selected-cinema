@@ -61,10 +61,10 @@ const ReservationDialog = (props) => {
                 ))}
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={handleCancellation} color="textPrimary">
+                <Button autoFocus onClick={handleCancellation}>
                     <Box color='red' display='inline'>{'Cancel reservation'}</Box>
                 </Button>
-                <Button onClick={handleClose} color="textPrimary">
+                <Button onClick={handleClose}>
                     <Box fontWeight='bold' display='inline'>{"Exit"}</Box>
                 </Button>
             </DialogActions>

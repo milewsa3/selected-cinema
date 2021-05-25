@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const Seats = ({setSelectedSeats, available_seats}) => {
     const classes = useStyles()
     const numberOfRows = 5
-    const [takenSeats, setTakenSeats] = useState([])
+    const [takenSeats] = useState([])
 
     const onSeatClickHandler = (number) => {
         const index = takenSeats.indexOf(number)

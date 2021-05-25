@@ -36,7 +36,7 @@ const FourthStep = ({selectedTime, selectedFilm, setSelectedSeats}) => {
         if (selectedTime && selectedFilm) {
             dispatch(getScreeningAction(new Date(selectedTime), selectedFilm._id))
         }
-    }, [])
+    }, [dispatch, selectedFilm, selectedTime])
 
     if (selectedTime === "" || selectedFilm === null) {
         return (

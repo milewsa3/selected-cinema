@@ -93,7 +93,6 @@ const ReservationStepper = () => {
     }
 
     const [open, setOpen] = useState(false);
-    const [severity, setSeverity] = useState('error');
     const [snackBarInfo, setSnackBarInfo] = useState('Something went wrong');
 
     const openSnackbar = () => {
@@ -148,7 +147,7 @@ const ReservationStepper = () => {
                 </Paper>
             )}
             <Snackbar open={open} autoHideDuration={5000} onClose={closeSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
-                <Alert onClose={closeSnackbar} severity={severity}>
+                <Alert onClose={closeSnackbar} severity={'error'}>
                     {snackBarInfo}
                 </Alert>
             </Snackbar>

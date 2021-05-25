@@ -24,7 +24,7 @@ const ThirdStep = ( { selectedTime, setSelectedTime, selectedFilm, selectedDate 
             dispatch(getScreeningsTimeAction(new Date(selectedDate), selectedFilm?._id))
 
         // setSelectedTime('')
-    }, []);
+    }, [dispatch, selectedDate, selectedFilm]);
 
     const getTimeFromDate = (date) => {
         if (!(date instanceof Date))

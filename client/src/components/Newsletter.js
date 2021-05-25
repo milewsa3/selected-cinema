@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Button, Grow, Paper, Snackbar, TextField, Typography} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 import {makeStyles} from "@material-ui/core/styles";
-import useFetch from "../utils/useFetch";
 
 const useStyles = makeStyles(theme => ({
     newsletter: {

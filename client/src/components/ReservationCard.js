@@ -28,11 +28,11 @@ const ReservationCard = ({reservation}) => {
     return (
         <Card className={classes.root} raised={true}>
             <CardActionArea className={classes.actionArea} onClick={handleClickOpen}>
-                <Typography variant="body1" component="p" align="center">{"Film: "}<Box fontWeight='bold' display='inline'>{reservation.movie.title}</Box></Typography>
+                <Typography variant="body1" component="span" align="center">{"Film: "}<Box fontWeight='bold' display='inline'>{reservation.movie.title}</Box></Typography>
                 <Divider variant="middle" />
-                <Typography variant="body1" component="p" align="center">{"Date: " }<Box fontWeight='bold' display='inline'>{`${new Date(reservation.date).toLocaleString()}`}</Box></Typography>
+                <Typography variant="body1" component="span" align="center">{"Date: " }<Box fontWeight='bold' display='inline'>{`${new Date(reservation.date).toLocaleString()}`}</Box></Typography>
                 <Divider variant="middle" />
-                <Typography variant="body1" component="p" align="center">
+                <Typography variant="body1" component="span" align="center">
                     {"Selected seats: "}
                     <Box fontWeight='bold' display='inline'>{reservation.seats.join(', ')}</Box>
                 </Typography>

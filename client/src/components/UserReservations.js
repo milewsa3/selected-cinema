@@ -1,7 +1,6 @@
 import React from 'react';
 import {Grid, Typography} from "@material-ui/core";
 import ReservationCard from "./ReservationCard";
-import PropTypes from "prop-types";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -33,10 +32,6 @@ const UserReservations = ({reservations}) => {
         </div>
     );
 };
-
-UserReservations.propTypes = {
-    reservations: PropTypes.object.isRequired,
-}
 
 
 export default UserReservations;

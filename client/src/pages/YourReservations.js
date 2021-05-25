@@ -35,11 +35,9 @@ const YourReservations = () => {
     const dispatch = useDispatch()
     const { data: reservations, loading, error } = useSelector(state => state.reservations)
 
-    // const {data: reservations, isPending, error} = useFetch(`${process.env.REACT_APP_BACKEND_URI}/reservations/user/${user_id}`)
-
     useEffect(() => {
         dispatch(getReservations(user_id))
-    }, [dispatch])
+    }, [dispatch, user_id])
 
     return (
         <Grow in>
@@ -47,7 +45,7 @@ const YourReservations = () => {
                 {loading ? (
                     <Grid container spacing={3}>
                         {[0,1,2,3,4,5,6,7].map((reservation) => (
-                            <Grid item sx={12} md={4} lg={3} xl={3} key={reservation._id}>
+                            <Grid item sx={12} md={4} lg={3} xl={3} key={reservation}>
                                 <Skeleton variant="rect" width={250} height={90} animation="wave" className={classes.skeleton}/>
                             </Grid>
                         ))}
