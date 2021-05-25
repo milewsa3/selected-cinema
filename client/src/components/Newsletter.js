@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, Grow, Paper, Snackbar, TextField, Typography} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 import {makeStyles} from "@material-ui/core/styles";
+import useFetch from "../utils/useFetch";
 
 const useStyles = makeStyles(theme => ({
     newsletter: {
@@ -21,6 +22,9 @@ const useStyles = makeStyles(theme => ({
     },
     newsletterLabel: {
         marginBottom: theme.spacing(16)
+    },
+    textField: {
+        maxWidth: theme.spacing(35)
     }
 }))
 
@@ -28,16 +32,34 @@ const Newsletter = () => {
     const classes = useStyles()
 
     const [email, setEmail] = useState('')
+    const [error, setError] = useState(false)
+    const [errorDesc, setErrorDesc] = useState('')
     const [open, setOpen] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [snackBarInfo, setSnackBarInfo] = useState('initState');
 
     const signUpToNewsletter = () => {
-        console.log('sending newsletter to', email)
-        setEmail('')
-        setSeverity('success')
-        setSnackBarInfo('Successfully signed up to newsletter!')
-        openSnackbar()
+        fetch(`${process.env.REACT_APP_BACKEND_URI}/newsletter`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email}),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    setError(true)
+                    setErrorDesc(data.error.message)
+                } else {
+                    setError(false)
+                    setErrorDesc('')
+                    setEmail('')
+                    setSeverity('success')
+                    setSnackBarInfo('Successfully signed up to newsletter!')
+                    openSnackbar()
+                }
+            })
     }
 
     const openSnackbar = () => {
@@ -64,6 +86,9 @@ const Newsletter = () => {
                         type="email"
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
+                        error={error}
+                        helperText={errorDesc}
+                        className={classes.textField}
                     >
                     </TextField>
                     <Button

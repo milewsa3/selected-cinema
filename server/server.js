@@ -7,6 +7,7 @@ const screeningRoutes = require('./routes/screeningRoutes');
 const movieRoutes = require('./routes/movieRoutes');
 const reservationRoutes = require('./routes/reservationRoutes');
 const authRoutes = require('./routes/authRoutes');
+const newsletterRoutes = require('./routes/newsletterRoutes')
 const cors = require('cors')
 const {handleCors} = require("./middleware/corsMiddleware");
 
@@ -43,6 +44,7 @@ app.use('/screenings', screeningRoutes);
 app.use('/movies', movieRoutes);
 app.use('/reservations', reservationRoutes);
 app.use('/auth', authRoutes)
+app.use('/newsletter', newsletterRoutes)
 
 // 404 Error
 app.use((req, res) => {
