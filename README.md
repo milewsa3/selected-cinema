@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Selected Cinema
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Selected cinema is a professional, full-featured and high performace web page intended to make a reservation to a screening in cinema named *Selected*. 
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+Use the package manager [npm](https://nodejs.org/en/download/) to install node-modules.
 
-### `npm start`
+```bash
+npm install
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+⚠️ Install modules in both client and server folders.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Usage
 
-### `npm test`
+```bash
+# Start client side
+cd ~/client
+npm start
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Start server side
+cd ~/server
+npm start
+```
 
-### `npm run build`
+Browser should automaticly open with address `http:\\localhost:3000` and after loading process home page should appear on the screen. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Build with:
+- [NodeJS](https://nodejs.org/en/) -  designed to build scalable network applications
+- [Express](https://expressjs.com/) - back-end web application framework for Node.jsapplications
+- [React](https://reactjs.org/) - front-end JavaScript library[3] for building user interfaces or UI components
+- [Material UI](https://material-ui.com/) - react components for faster and easier web development
+- [MongoDB](https://www.mongodb.com/) - document-oriented database program classified as a NoSQL
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Deployment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Web page is deployed on Azure using AppServices. Check it out 👉 [Selected](http://selected-cinema.azurewebsites.net/)
 
-### `npm run eject`
+## Site screens
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Home
+![](https://raw.githubusercontent.com/milewsa3/selected-cinema/master/documentation/images/home.png?token=ANOB2QJD4GHNFX3FQ2UCBTTAXCRBA)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Films
+![](https://raw.githubusercontent.com/milewsa3/selected-cinema/master/documentation/images/films.png?token=ANOB2QOXI66A6CNLHUV3RI3AXCRCO)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Sign in
+![](https://raw.githubusercontent.com/milewsa3/selected-cinema/master/documentation/images/signIn.png?token=ANOB2QJ6N32BSHCL5JJDDALAXCRDO)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Dashboard
+![](https://raw.githubusercontent.com/milewsa3/selected-cinema/master/documentation/images/dashboard.png?token=ANOB2QPRCS5GZOG2CXN54NLAXCREO)
 
-## Learn More
+### Make Reservation
+![](https://raw.githubusercontent.com/milewsa3/selected-cinema/master/documentation/images/makeReservation.png?token=ANOB2QJWUMMN6KQVULBPDSTAXCRFC)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Your Reservations
+![](https://raw.githubusercontent.com/milewsa3/selected-cinema/master/documentation/images/yourReservations.png?token=ANOB2QKNCVSJFTES3AHE52TAXCRFS)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. In case of any questions, contact me via email - *a.milewski@onet.eu*
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
