@@ -14,6 +14,25 @@ npm install
 
 ## Usage
 
+### Configure .env files
+
+Create your `.env` files in both server and client folders. It should look like `.sample_env` files.
+
+
+```bash
+# .env (client)
+REACT_APP_BACKEND_URI=http://localhost:5000
+```
+
+```bash
+# .env (server)
+ATLAS_URI=uri-to-mongodb
+BCRYPT_PRIVATE_KEY=your_private_key
+FRONTEND_URI=http://localhost:3000
+```
+
+### Running
+
 ```bash
 # Start client side
 cd ~/client
@@ -28,8 +47,8 @@ Browser should automaticly open with address `http:\\localhost:3000` and after l
 
 ### Build with:
 - [NodeJS](https://nodejs.org/en/) -  designed to build scalable network applications
-- [Express](https://expressjs.com/) - back-end web application framework for Node.jsapplications
-- [React](https://reactjs.org/) - front-end JavaScript library[3] for building user interfaces or UI components
+- [Express](https://expressjs.com/) - back-end web application framework for Node.js applications
+- [React](https://reactjs.org/) - front-end JavaScript library for building user interfaces or UI components
 - [Material UI](https://material-ui.com/) - react components for faster and easier web development
 - [MongoDB](https://www.mongodb.com/) - document-oriented database program classified as a NoSQL
 
