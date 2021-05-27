@@ -21,7 +21,7 @@ const newsletter_post = (req, res) => {
     fetch(`https://us6.api.mailchimp.com/3.0/lists/b23a37abeb`, {
         method: 'POST',
         headers: {
-            'Authorization': 'auth e641140b78cfaa35987a0f9b6dcfed79-us6',
+            'Authorization': `auth ${process.env.MAILCHIMP_NEWSLETTER_API_KEY}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(mcData)

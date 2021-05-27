@@ -1,3 +1,4 @@
 ATLAS_URI=uri-to-mongodb
 BCRYPT_PRIVATE_KEY=your_private_key
 FRONTEND_URI=http://localhost:3000
+MAILCHIMP_NEWSLETTER_API_KEY=1234
